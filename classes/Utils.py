@@ -2,6 +2,7 @@ from classes.Paises import *
 from classes.Exercitos import *
 from classes.Continentes import *
 from classes.Fronteiras import *
+from classes.Objetivos import *
 
 class Utils:
     
@@ -129,6 +130,8 @@ class Utils:
                   paisOrienteMedio, paisMongolia, paisVietna, paisJapao, paisChina, paisIndia, paisSumatra, paisBorneo, paisNovaGuine,
                   paisAustralia]
         
-        info = [fronteiras, exercitos, continentes, paises]
+        objetivos = Objetivos.objetivos
+        
+        info = [fronteiras, exercitos, continentes, paises, objetivos]
         
         return info

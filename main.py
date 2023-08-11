@@ -8,4 +8,13 @@ from classes.Tarefas import *
 from classes.Utils import *
 
 info = Utils.loadInfo()
-print(info)
+
+#info structure contains:
+#-List with 5 info items such as:
+#--fronteiras
+#--exercitos
+#--continentes
+#--paises
+#--objetivos
+
+print(f'País info: {info[0][0].pais}\nFronteira info:{info[0][0].fronteiras}')
