@@ -1,65 +1,11 @@
 from classes.Predicao import *
 from classes.Cores import *
-from storage.Data import *
 from classes.Paises import *
 from classes.Exercitos import *
 from classes.Continentes import *
 from classes.Fronteiras import *
 from classes.Tarefas import *
+from classes.Utils import *
 
-fronteirasBrasil = Fronteiras("brasil", ["argentina", "peru", "venezuela", "argelia"])
-fronteirasArgentina = Fronteiras("argentina", ["peru", "brasil"])
-fronteirasPeru = Fronteiras("peru", ["brasil", "argentina", "venezuela"])
-fronteirasVenezuela = Fronteiras("venezuela", ["brasil", "peru", "mexico"])
-fronteirasMexico = Fronteiras("mexico", ["venezuela", "nova_york", "california"])
-fronteirasNovaYork = Fronteiras("nova_york", ["mexico", "california", "ottawa", "labrador"])
-fronteirasCalifornia = Fronteiras("california", ["nova_york", "ottawa", "vancouver", "mexico"])
-fronteirasOttawa = Fronteiras("ottawa", ["labrador", "nova_york", "california", "vancouver", "mackenzie"])
-fronteirasVancouver = Fronteiras("vancouver", ["mackenzie", "alaska", "ottawa", "california"])
-fronteirasLabrador = Fronteiras("labrador", ["ottawa", "nova_york", "groenlandia"])
-fronteirasMackenzie = Fronteiras("mackenzie", ["alaska", "vancouver", "ottawa", "groenlandia"])
-fronteirasGroenlandia = Fronteiras("groenlandia", ["mackenzie", "islandia"])
-fronteirasAlaska = Fronteiras("alaska", ["mackenzie", "vancouver", "vladvostok"])
-fronteirasIslandia = Fronteiras("islandia", ["groenlandia", "inglaterra"])
-fronteirasInglaterra = Fronteiras("inglaterra", ["islandia", "suecia", "alemanha", "franca"])
-fronteirasFranca = Fronteiras("franca", ["polonia", "alemanha", "inglaterra", "argelia"])
-fronteirasPlonia = Fronteiras("polonia", ["alemanha", "moscou", "franca", "oriente_medio", "egito"])
-fronteirasAlemanha = Fronteiras("alemanha", ["inglaterra", "polonia", "franca"])
-fronteirasSuecia = Fronteiras("suecia", ["moscou", "inglaterra"])
-fronteirasMoscou = Fronteiras("moscou", ["suecia", "omsk", "oriente_medio", "polonia", "aral"])
-fronteirasEgito = Fronteiras("egito", ["argelia", "sudao", "oriente_medio", "polonia", "franca"])
-fronteirasArgelia = Fronteiras("argelia", ["congo", "sudao", "egito", "franca", "brasil"])
-fronteirasSudao = Fronteiras("sudao", ["egito", "argelia", "congo", "madagascar"])
-fronteirasCongo = Fronteiras("congo", ["sudao", "africa_do_sul", "argelia"])
-fronteirasAfricaDoSul= Fronteiras("africa_do_sul", ["madagascar", "congo", "sudao"])
-fronteirasMadagascar = Fronteiras("madagascar", ["africa_do_sul", "sudao"])
-fronteirasVladvostok = Fronteiras("vladvostok", ["siberia", "tchita", "china", "japao", "alaska"])
-fronteirasSiberia = Fronteiras("siberia", ["vladvostok", "tchita", "dudinka"])
-fronteirasTchita = Fronteiras("tchita", ["mongolia", "dudinka", "siberia", "vladvostok", "china"])
-fronteirasDudinka = Fronteiras("dudinka", ["siberia", "tchita", "omsk", "mongolia"])
-fronteirasOmsk = Fronteiras("omsk", ["mongolia", "dudinka", "moscou", "aral", "china"])
-fronteirasAral = Fronteiras("aral", ["omsk", "china", "moscou", "oriente_medio", "india"])
-fronteirasOrienteMedio = Fronteiras("oriente_medio", ["aral", "india", "egito", "polonia", "moscou"])
-fronteirasMongolia = Fronteiras("mongolia", ["china", "tchita", "omsk", "dudinka"])
-fronteirasVietna = Fronteiras("vietna", ["india", "china", "borneo"])
-fronteirasJapao = Fronteiras("japao", ["china", "vladvostok"])
-fronteirasChina = Fronteiras("china", ["vladvostok", "tchita", "mongolia", "aral", "india", "vietna", "japao", "omsk"])
-fronteirasIndia = Fronteiras("india", ["oriente_medio", "china", "aral", "vietna", "sumatra"])
-fronteirasSumatra = Fronteiras("sumatra", ["australia", "india"])
-fronteirasBorneo = Fronteiras("borneo", ["australia", "nova_guine", "vietna"])
-fronteirasNovaGuine = Fronteiras("nova_guine", ["australia", "borneo"])
-fronteirasAustralia = Fronteiras("australia", ["sumatra", "borneo", "nova_guine"])
-
-exercitosAzul = Exercitos("azul", 0)
-exercitosVermelho = Exercitos("vermelho", 0)
-exercitosVerde = Exercitos("verde", 0)
-exercitosRoxo = Exercitos("roxo", 0)
-exercitosAmarelo = Exercitos("amarelo", 0)
-exercitosCinza = Exercitos("cinza", 0)
-
-continenteAmericaDoSul = Continentes("america_do_sul", ["brasil", "argentina", "peru", "venezuela"])
-continenteAmericaDoNorte = Continentes("america_do_norte", ["mexico", "california", "nova_york", "ottawa", "vancouver", "labrador", "mackenzie", "alaska", "groenlandia"])
-continenteAsia = Continentes("asia", ["mexico", "california", "nova_york", "ottawa", "vancouver", "labrador", "mackenzie", "alaska", "groenlandia"])
-continenteEuropa = Continentes("europa", ["moscou", "suecia", "polonia", "alemanha", "inglaterra", "islandia", "franca"])
-continenteAfrica = Continentes("africa", ["africa_do_sul", "madagascar", "congo", "sudao", "egito", "argelia"])
-continenteOceania = Continentes("oceania", ["australia", "sumatra", "borneo", "nova_guine"])
+info = Utils.loadInfo()
+print(info)
