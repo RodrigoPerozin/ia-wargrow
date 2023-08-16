@@ -1,20 +1,23 @@
-from typing import Union
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse
 from roboflow import Roboflow
 import uvicorn
 import os
-import matplotlib.pyplot as plt
 from PIL import Image
 import requests
-import pytesseract
 import io
 
+from google.cloud import vision
+from google.cloud.vision_v1 import types
 
-rf = Roboflow(api_key="VaFSU2CW1skuZYeidgCM")
+## Configuração do Google Cloud Vision API ##
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key.json"
+
+
+rf = Roboflow(api_key="81gG6yXrCsPPzbHBRCuK")
 app = FastAPI()
-project = rf.workspace().project("project_demo-jlcme")
-model = project.version(3).model
+project = rf.workspace().project("war-ia")
+model = project.version(1).model
 
 class Prediction:
     def __init__(self, x, y, width, height, confidence, class_name, image_path, prediction_type):
@@ -240,7 +243,6 @@ async def extract_text_from_image(image: UploadFile = File(...)):
         confidence = 40
         overlap = 30
         predict_image = model.predict(image_path, confidence=confidence, overlap=overlap)
-        predict_image.save(output_path=os.path.join(temp_folder, "Resultado.png"))
     
         data = predict_image.json()
         predictions = []
@@ -258,28 +260,61 @@ async def extract_text_from_image(image: UploadFile = File(...)):
             )
             predictions.append(prediction)
         
-        image_path = os.path.join(temp_folder, "Resultado.png")
-        image = Image.open(image_path)
-        
         result = []
+        image_paths = []
 
+        image_original = os.path.join(temp_folder, "temp_image.png")
+        
         for pred in predictions:
             x = pred.x
             y = pred.y
             width = pred.width
             height = pred.height
+            
+            image_or = Image.open(image_original)
+            image_path = os.path.join(temp_folder, pred.class_name + '.png')
+            
+            x1 = x - width / 2
+            x2 = x + width / 2
+            y1 = y - height / 2
+            y2 = y + height / 2
 
-            cropped_image = image.crop((x - 40 , y - 100, x + width - 50, y + height - 50))
+            # Verificações para garantir que as coordenadas não estejam fora dos limites da imagem
+            image_width, image_height = image_or.size
+            x1 = max(0, x1)
+            x2 = min(image_width, x2)
+            y1 = max(0, y1)
+            y2 = min(image_height, y2)
 
-            try:
-                text = pytesseract.image_to_string(cropped_image)
-            except Exception as e:
-                print("Erro durante a extração de texto:", e)
-                text = ""
+            box = (x1, y1, x2, y2)
+            cropped_image = image_or.crop(box=box)
+            cropped_image.save(image_path)
+            image_paths.append({"class_name": pred.class_name, "image_path": image_path})
+            
+        print(image_paths)
+        for images in image_paths:
+            client = vision.ImageAnnotatorClient()
+            with open(images["image_path"], 'rb') as image_file:
+                content = image_file.read()
 
-            result.append({"class_name": pred.class_name, "troop": text})
-
-        os.remove(image_path)  # Remover a imagem temporária após o processamento
+            image = types.Image(content=content)
+            response = client.text_detection(image=image, max_results=1, image_context={"language_hints": ["pt"]})
+            texts = response.text_annotations
+            print(texts)
+            if len(texts) > 0:
+                result.append({"class_name": images["class_name"], "troop": texts[1].description})
+                for text in texts: 
+                    class_name_exists = any(entry["class_name"] == images["class_name"] for entry in result)
+                    if not class_name_exists: 
+                        result.append({"class_name": images["class_name"], "value": texts[1].description})
+            else:
+                class_name_exists = any(entry["class_name"] == images["class_name"] for entry in result)
+                if not class_name_exists:
+                    result.append({"class_name": images["class_name"], "troop": "Não identificado"})
+                    
+        # Remover os arquivos de imagem temporários
+        # for images in image_paths:
+        #     os.remove(images["image_path"])
 
         return result
 
