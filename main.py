@@ -18,6 +18,8 @@ rf = Roboflow(api_key="81gG6yXrCsPPzbHBRCuK")
 app = FastAPI()
 project = rf.workspace().project("war-ia")
 model = project.version(1).model
+confidence = 20
+overlap = 20
 
 class Prediction:
     def __init__(self, x, y, width, height, confidence, class_name, image_path, prediction_type):
@@ -76,8 +78,6 @@ async def predict_json(image: UploadFile = File(...)):
         image_path = os.path.join(temp_folder, "temp_image.png")
         pil_image.save(image_path)
 
-        confidence = 40
-        overlap = 30
         data = model.predict(image_path, confidence=confidence, overlap=overlap).json()
         os.remove(image_path)  # Remover a imagem temporária após a previsão
 
@@ -99,8 +99,6 @@ async def predict_countries(image: UploadFile = File(...)):
         image_path = os.path.join(temp_folder, "temp_image.png")
         pil_image.save(image_path)
 
-        confidence = 40
-        overlap = 30
         data = model.predict(image_path, confidence=confidence, overlap=overlap).json()
         os.remove(image_path)  # Remover a imagem temporária após a previsão
 
@@ -144,8 +142,6 @@ async def predict_view(image: UploadFile = File(...)):
         image_path_param = os.path.join(temp_folder, "temp_image.png")
         pil_image.save(image_path_param)
 
-        confidence = 40
-        overlap = 30
         data = model.predict(image_path_param, confidence=confidence, overlap=overlap)
 
         temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
@@ -156,7 +152,6 @@ async def predict_view(image: UploadFile = File(...)):
         image_path = os.path.join(temp_folder, image_filename)
 
         data.save(output_path=image_path)
-        print(image_path)
 
         if not os.path.exists(image_path):
             raise HTTPException(status_code=404, detail="Imagem não encontrada.")
@@ -180,8 +175,6 @@ async def get_pixel_color(image: UploadFile = File(...)):
         image_path = os.path.join(temp_folder, "temp_image.png")
         pil_image.save(image_path)
 
-        confidence = 40
-        overlap = 30
         predict_image = model.predict(image_path, confidence=confidence, overlap=overlap)
         predict_image.save(output_path=os.path.join(temp_folder, "Resultado.png"))
     
@@ -240,8 +233,8 @@ async def extract_text_from_image(image: UploadFile = File(...)):
         image_path = os.path.join(temp_folder, "temp_image.png")
         pil_image.save(image_path)
 
-        confidence = 40
-        overlap = 30
+        confidence = 20
+        overlap = 20
         predict_image = model.predict(image_path, confidence=confidence, overlap=overlap)
     
         data = predict_image.json()
@@ -291,7 +284,6 @@ async def extract_text_from_image(image: UploadFile = File(...)):
             cropped_image.save(image_path)
             image_paths.append({"class_name": pred.class_name, "image_path": image_path})
             
-        print(image_paths)
         for images in image_paths:
             client = vision.ImageAnnotatorClient()
             with open(images["image_path"], 'rb') as image_file:
@@ -300,7 +292,6 @@ async def extract_text_from_image(image: UploadFile = File(...)):
             image = types.Image(content=content)
             response = client.text_detection(image=image, max_results=1, image_context={"language_hints": ["pt"]})
             texts = response.text_annotations
-            print(texts)
             if len(texts) > 0:
                 result.append({"class_name": images["class_name"], "troop": texts[1].description})
                 for text in texts: 
@@ -313,8 +304,8 @@ async def extract_text_from_image(image: UploadFile = File(...)):
                     result.append({"class_name": images["class_name"], "troop": "Não identificado"})
                     
         # Remover os arquivos de imagem temporários
-        # for images in image_paths:
-        #     os.remove(images["image_path"])
+        for images in image_paths:
+            os.remove(images["image_path"])
 
         return result
 
