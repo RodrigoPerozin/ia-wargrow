@@ -6,6 +6,7 @@ import os
 from PIL import Image
 import requests
 import io
+import json
 
 from google.cloud import vision
 from google.cloud.vision_v1 import types
@@ -304,13 +305,21 @@ async def extract_text_from_image(image: UploadFile = File(...)):
                     result.append({"class_name": images["class_name"], "troop": "Não identificado"})
                     
         # Remover os arquivos de imagem temporários
-        for images in image_paths:
-            os.remove(images["image_path"])
+        # for images in image_paths:
+        #     os.remove(images["image_path"])
 
         return result
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/predict/result")
+async def apply_logic():
+    with open('resultado.json', 'r') as json_file:
+        data = json.load(json_file)
+    
+    
+    return data
 
 
 if __name__ == "__main__":
