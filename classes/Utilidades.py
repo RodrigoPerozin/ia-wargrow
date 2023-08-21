@@ -4,9 +4,9 @@ from classes.Continentes import *
 from classes.Fronteiras import *
 from classes.Objetivos import *
 
-class Utils:
+class Utilidades:
     
-    def loadInfo():
+    def carregarInformacoes():
         
         fronteirasBrasil = Fronteiras("brasil", ["argentina", "peru", "venezuela", "argelia"])
         fronteirasArgentina = Fronteiras("argentina", ["peru", "brasil"])
@@ -135,3 +135,6 @@ class Utils:
         info = [fronteiras, exercitos, continentes, paises, objetivos]
         
         return info
+    
+    def atualizaObjetivo(objetivoIndex, jogo):
+        jogo.objetivo = [objetivoIndex, Utilidades.carregarInformacoes()[4][objetivoIndex]]
