@@ -18,3 +18,7 @@ class Predicao:
         self.class_name = classe
         self.image_path = caminhoImagem
         self.predicao_type = predicao_tipo
+        
+    def __str__(self):
+        return f"Predicao(class_name={self.class_name}, x={self.x}, y={self.y}, width={self.width}, height={self.height}, confidence={self.confidence}, image_path={self.image_path}, predicao_type={self.predicao_type})"
+    

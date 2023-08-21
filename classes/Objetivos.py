@@ -15,3 +15,6 @@ class Objetivos:
         "Destruir totalmente OS EXERCITOS BRANCO.",
         "Destruir totalmente OS EXERCITOS VERDES."
     ]
+    
+    def __str__(self):
+        return f"Objetivos(objetivos={self.objetivos})"
