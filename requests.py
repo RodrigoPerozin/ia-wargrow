@@ -4,8 +4,9 @@ from google.cloud.vision_v1 import types
 from google.cloud import vision
 from roboflow import Roboflow
 from classes.Predicao import *
-from PIL import Image
 from classes.Cor import *
+from classes.Utilidades import *
+from PIL import Image
 import requests
 import uvicorn
 import json
@@ -23,8 +24,8 @@ project = rf.workspace().project("war-ia")
 model = project.version(1).model
 
 #variables
-confidence = 20
-overlap = 20
+confianca = 20
+sobrepos = 20
 
 #class ImagePredicao:
 #    def __init__(self, predicaos, image_width, image_height):
@@ -34,87 +35,63 @@ overlap = 20
 #
 #    def __str__(self):
 #        return f"ImagePredicao(predicaos={self.predicaos}, image_width={self.image_width}, image_height={self.image_height})"
-    
-class ColorInfo:
-    def __init__(self, name_value, closest_named_hex):
-        self.value = name_value
-        self.closest_named_hex = closest_named_hex
-    
-def rgb_to_hex(rgb):
-    return '{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
-    
 
-def get_color_info_api(hex_value: str):
-    api_url = f"https://www.thecolorapi.com/id?hex={hex_value}"
-    response = requests.get(api_url)
-
-    if response.status_code == 200:
-        color_info_json = response.json()
-        nome = color_info_json["name"]["value"]
-        hexNomeProx = color_info_json["name"]["closest_named_hex"]
-        return Cor(nome, hexNomeProx)
-    else:
-        return "Falha ao obter informações da cor."
-
-@app.post("/predict/")
-async def predict_json(image: UploadFile = File(...)):
+@app.post("/predicao/")
+async def predicaoJson(image: UploadFile = File(...)):
     try:
-        content = await image.read()
-        pil_image = Image.open(io.BytesIO(content))
-
+        conteudo = await image.read()
+        imagemPIL = Image.open(io.BytesIO(conteudo))
         # Salvar a imagem temporariamente para poder passar o caminho para o modelo
-        temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
-        if not os.path.exists(temp_folder):
-            os.makedirs(temp_folder)
-        image_path = os.path.join(temp_folder, "temp_image.png")
-        pil_image.save(image_path)
+        pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
+        if not os.path.exists(pastaTemporaria):
+            os.makedirs(pastaTemporaria)
+        caminhoImagem = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(caminhoImagem)
+        dados = model.predict(caminhoImagem, confidence=confianca, overlap=sobrepos).json()
+        os.remove(caminhoImagem)  # Remover a imagem temporária após a previsão
 
-        data = model.predict(image_path, confidence=confidence, overlap=overlap).json()
-        os.remove(image_path)  # Remover a imagem temporária após a previsão
-
-        return data
-
+        return dados
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/predict-countries/")
-async def predict_countries(image: UploadFile = File(...)):
+@app.post("/predicao-paises/")
+async def predicao_paises(imagem: UploadFile = File(...)):
     try:
-        content = await image.read()
-        pil_image = Image.open(io.BytesIO(content))
+        conteudo = await imagem.read()
+        imagemPIL = Image.open(io.BytesIO(conteudo))
 
         # Salvar a imagem temporariamente para poder passar o caminho para o modelo
-        temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
-        if not os.path.exists(temp_folder):
-            os.makedirs(temp_folder)
-        image_path = os.path.join(temp_folder, "temp_image.png")
-        pil_image.save(image_path)
+        pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
+        if not os.path.exists(pastaTemporaria):
+            os.makedirs(pastaTemporaria)
+        caminhoImagem = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(caminhoImagem)
 
-        data = model.predict(image_path, confidence=confidence, overlap=overlap).json()
-        os.remove(image_path)  # Remover a imagem temporária após a previsão
+        data = model.predict(caminhoImagem, confidence=confianca, overlap=sobrepos).json()
+        os.remove(caminhoImagem)  # Remover a imagem temporária após a previsão
 
         predicaos = []
-        class_names_found = [] 
+        nomes_classe_achados = [] 
 
-        for predicao_data in data["predicaos"]:
+        for predicao_dados in data["predictions"]:
             predicao = Predicao(
-                x=predicao_data["x"],
-                y=predicao_data["y"],
-                width=predicao_data["width"],
-                height=predicao_data["height"],
-                confidence=predicao_data["confidence"],
-                class_name=predicao_data["class"],
-                image_path=predicao_data["image_path"],
-                predicao_type=predicao_data["predicao_type"]
+                x=predicao_dados["x"],
+                y=predicao_dados["y"],
+                width=predicao_dados["width"],
+                height=predicao_dados["height"],
+                confidence=predicao_dados["confidence"],
+                class_name=predicao_dados["class"],
+                image_path=predicao_dados["image_path"],
+                predicao_type=predicao_dados["predicao_type"]
             )
             predicaos.append(predicao)
             
-            if predicao_data["class"] not in class_names_found:
-                class_names_found.append(predicao_data["class"])
+            if predicao_dados["class"] not in nomes_classe_achados:
+                nomes_classe_achados.append(predicao_dados["class"])
                 
         return {
-            "Quantidade de Paises: ": len(class_names_found),
-            "Paises Encontrados": class_names_found
+            "Quantidade de Paises: ": len(nomes_classe_achados),
+            "Paises Encontrados": nomes_classe_achados
         }
 
     except Exception as e:
@@ -123,24 +100,24 @@ async def predict_countries(image: UploadFile = File(...)):
 @app.post("/predict-view/")
 async def predict_view(image: UploadFile = File(...)):
     try:
-        content = await image.read()
-        pil_image = Image.open(io.BytesIO(content))
+        conteudo = await image.read()
+        imagemPIL = Image.open(io.BytesIO(conteudo))
 
         # Salvar a imagem temporariamente para poder passar o caminho para o modelo
-        temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
-        if not os.path.exists(temp_folder):
-            os.makedirs(temp_folder)
-        image_path_param = os.path.join(temp_folder, "temp_image.png")
-        pil_image.save(image_path_param)
+        pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
+        if not os.path.exists(pastaTemporaria):
+            os.makedirs(pastaTemporaria)
+        image_path_param = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(image_path_param)
 
-        data = model.predict(image_path_param, confidence=confidence, overlap=overlap)
+        data = model.predict(image_path_param, confidence=confianca, overlap=sobrepos)
 
-        temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
-        if not os.path.exists(temp_folder):
-            os.makedirs(temp_folder)
+        pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
+        if not os.path.exists(pastaTemporaria):
+            os.makedirs(pastaTemporaria)
         
         image_filename = "Resultado.png"
-        image_path = os.path.join(temp_folder, image_filename)
+        image_path = os.path.join(pastaTemporaria, image_filename)
 
         data.save(output_path=image_path)
 
@@ -156,18 +133,18 @@ async def predict_view(image: UploadFile = File(...)):
 @app.post("/get-pixel-color/")
 async def get_pixel_color(image: UploadFile = File(...)):
     try:
-        content = await image.read()
-        pil_image = Image.open(io.BytesIO(content))
+        conteudo = await image.read()
+        imagemPIL = Image.open(io.BytesIO(conteudo))
 
         # Salvar a imagem temporariamente para poder passar o caminho para o modelo
-        temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
-        if not os.path.exists(temp_folder):
-            os.makedirs(temp_folder)
-        image_path = os.path.join(temp_folder, "temp_image.png")
-        pil_image.save(image_path)
+        pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
+        if not os.path.exists(pastaTemporaria):
+            os.makedirs(pastaTemporaria)
+        image_path = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(image_path)
 
-        predict_image = model.predict(image_path, confidence=confidence, overlap=overlap)
-        predict_image.save(output_path=os.path.join(temp_folder, "Resultado.png"))
+        predict_image = model.predict(image_path, confidence=confianca, overlap=sobrepos)
+        predict_image.save(output_path=os.path.join(pastaTemporaria, "Resultado.png"))
     
         data = predict_image.json()
         predicaos = []
@@ -185,7 +162,7 @@ async def get_pixel_color(image: UploadFile = File(...)):
             )
             predicaos.append(predicao)
     
-        image_path = os.path.join(temp_folder, "Resultado.png")
+        image_path = os.path.join(pastaTemporaria, "Resultado.png")
         image = Image.open(image_path)
 
         result = []
@@ -200,7 +177,7 @@ async def get_pixel_color(image: UploadFile = File(...)):
 
             pixel_color = image.getpixel((x, y))
             
-            color_info = get_color_info_api(rgb_to_hex(pixel_color))
+            color_info = Utilidades.coletarInfoCor(Utilidades.RgbParaHex(pixel_color))
 
             result.append({"class_name": pred.class_name, "color_name": color_info.value, "hex": color_info.closest_named_hex})
 
@@ -214,19 +191,19 @@ async def get_pixel_color(image: UploadFile = File(...)):
 @app.post("/predict/value")
 async def extract_text_from_image(image: UploadFile = File(...)):
     try:
-        content = await image.read()
-        pil_image = Image.open(io.BytesIO(content))
+        conteudo = await image.read()
+        imagemPIL = Image.open(io.BytesIO(conteudo))
 
         # Salvar a imagem temporariamente para poder passar o caminho para o modelo
-        temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
-        if not os.path.exists(temp_folder):
-            os.makedirs(temp_folder)
-        image_path = os.path.join(temp_folder, "temp_image.png")
-        pil_image.save(image_path)
+        pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
+        if not os.path.exists(pastaTemporaria):
+            os.makedirs(pastaTemporaria)
+        image_path = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(image_path)
 
         confidence = 20
         overlap = 20
-        predict_image = model.predict(image_path, confidence=confidence, overlap=overlap)
+        predict_image = model.predict(image_path, confidence=confianca, overlap=sobrepos)
     
         data = predict_image.json()
         predicaos = []
@@ -247,7 +224,7 @@ async def extract_text_from_image(image: UploadFile = File(...)):
         result = []
         image_paths = []
 
-        image_original = os.path.join(temp_folder, "temp_image.png")
+        image_original = os.path.join(pastaTemporaria, "temp_image.png")
         
         for pred in predicaos:
             x = pred.x
@@ -256,7 +233,7 @@ async def extract_text_from_image(image: UploadFile = File(...)):
             height = pred.height
             
             image_or = Image.open(image_original)
-            image_path = os.path.join(temp_folder, pred.class_name + '.png')
+            image_path = os.path.join(pastaTemporaria, pred.class_name + '.png')
             
             x1 = x - width / 2
             x2 = x + width / 2
@@ -278,7 +255,7 @@ async def extract_text_from_image(image: UploadFile = File(...)):
         for images in image_paths:
             client = vision.ImageAnnotatorClient()
             with open(images["image_path"], 'rb') as image_file:
-                content = image_file.read()
+                conteudo = image_file.read()
 
             image = types.Image(content=content)
             response = client.text_detection(image=image, max_results=1, image_context={"language_hints": ["pt"]})

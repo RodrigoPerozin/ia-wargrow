@@ -3,6 +3,8 @@ from classes.Exercitos import *
 from classes.Continentes import *
 from classes.Fronteiras import *
 from classes.Objetivos import *
+from classes.Cor import *
+import requests
 
 class Utilidades:
     
@@ -138,3 +140,17 @@ class Utilidades:
     
     def atualizaObjetivo(objetivoIndex, jogo):
         jogo.objetivo = [objetivoIndex, Utilidades.carregarInformacoes()[4][objetivoIndex]]
+        
+    def RgbParaHex(rgb):
+        return '{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+    
+    def coletarInfoCor(valor_hex: str):
+        api_url = f"https://www.thecolorapi.com/id?hex={valor_hex}"
+        resposta = requests.get(api_url)
+        if resposta.status_code == 200:
+            info_cor_json = resposta.json()
+            nome = info_cor_json["name"]["value"]
+            hexNomeProx = info_cor_json["name"]["closest_named_hex"]
+            return Cor(nome, hexNomeProx)
+        else:
+            return "Falha ao obter informações da cor."
