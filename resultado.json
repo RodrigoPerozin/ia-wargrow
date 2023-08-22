@@ -1,0 +1,255 @@
+[
+    {
+      "class_name": "Moscou",
+      "troop": "1",
+      "color_name": "Corn",
+      "hex": "#E7BF05"
+    },
+    {
+      "class_name": "Dudinka",
+      "troop": "1",
+      "color_name": "Blue",
+      "hex": "#0000FF"
+    },
+    {
+      "class_name": "Argelia",
+      "troop": "1",
+      "color_name": "Olive Drab",
+      "hex": "#6B8E23"
+    },
+    {
+      "class_name": "Peru",
+      "troop": "CA",
+      "color_name": "Olive Drab",
+      "hex": "#6B8E23"
+    },
+    {
+      "class_name": "Sudao",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "Omsk",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "Australia",
+      "troop": "1",
+      "color_name": "Meteorite",
+      "hex": "#3C1F76"
+    },
+    {
+      "class_name": "Alaska",
+      "troop": "1",
+      "color_name": "Meteorite",
+      "hex": "#3C1F76"
+    },
+    {
+      "class_name": "Vladvostok",
+      "troop": "1",
+      "color_name": "Olive Drab",
+      "hex": "#6B8E23"
+    },
+    {
+      "class_name": "Groenlandia",
+      "troop": "1",
+      "color_name": "Valhalla",
+      "hex": "#2B194F"
+    },
+    {
+      "class_name": "Alaska",
+      "troop": "1",
+      "color_name": "Meteorite",
+      "hex": "#3C1F76"
+    },
+    {
+      "class_name": "Aral",
+      "troop": "1",
+      "color_name": "Corn",
+      "hex": "#E7BF05"
+    },
+    {
+      "class_name": "Brasil",
+      "troop": "1",
+      "color_name": "Meteorite",
+      "hex": "#3C1F76"
+    },
+    {
+      "class_name": "Vladvostok",
+      "troop": "1",
+      "color_name": "Olive Drab",
+      "hex": "#6B8E23"
+    },
+    {
+      "class_name": "Suecia",
+      "troop": "5",
+      "color_name": "Ship Gray",
+      "hex": "#3E3A44"
+    },
+    {
+      "class_name": "California",
+      "troop": "1",
+      "color_name": "Meteorite",
+      "hex": "#3C1F76"
+    },
+    {
+      "class_name": "China",
+      "troop": "1",
+      "color_name": "Blue",
+      "hex": "#0000FF"
+    },
+    {
+      "class_name": "Mackenzie",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "Vietna",
+      "troop": "1",
+      "color_name": "Blue Green",
+      "hex": "#0D98BA"
+    },
+    {
+      "class_name": "Africa do Sul",
+      "troop": "1",
+      "color_name": "Meteorite",
+      "hex": "#3C1F76"
+    },
+    {
+      "class_name": "Vancouver",
+      "troop": "1",
+      "color_name": "Blue Green",
+      "hex": "#0D98BA"
+    },
+    {
+      "class_name": "Borneo",
+      "troop": "1",
+      "color_name": "Corn",
+      "hex": "#E7BF05"
+    },
+    {
+      "class_name": "Mongolia",
+      "troop": "1",
+      "color_name": "Corn",
+      "hex": "#E7BF05"
+    },
+    {
+      "class_name": "Congo",
+      "troop": "1",
+      "color_name": "Corn",
+      "hex": "#E7BF05"
+    },
+    {
+      "class_name": "Nova York",
+      "troop": "1",
+      "color_name": "Olive Drab",
+      "hex": "#6B8E23"
+    },
+    {
+      "class_name": "Polinia",
+      "troop": "1",
+      "color_name": "Olive",
+      "hex": "#808000"
+    },
+    {
+      "class_name": "Ottawa",
+      "troop": "1",
+      "color_name": "Tundora",
+      "hex": "#4A4244"
+    },
+    {
+      "class_name": "Venezuela",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "Japao",
+      "troop": "1",
+      "color_name": "Corn",
+      "hex": "#E7BF05"
+    },
+    {
+      "class_name": "Islandia",
+      "troop": "1",
+      "color_name": "Mercury",
+      "hex": "#E5E5E5"
+    },
+    {
+      "class_name": "Siberia",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "india",
+      "troop": "1",
+      "color_name": "Concrete",
+      "hex": "#F2F2F2"
+    },
+    {
+      "class_name": "Franca",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "Madagascar",
+      "troop": "1",
+      "color_name": "Pickled Bluewood",
+      "hex": "#314459"
+    },
+    {
+      "class_name": "Argentina",
+      "troop": "1",
+      "color_name": "Olive Drab",
+      "hex": "#6B8E23"
+    },
+    {
+      "class_name": "Mexico",
+      "troop": "1",
+      "color_name": "Blue Charcoal",
+      "hex": "#010D1A"
+    },
+    {
+      "class_name": "Egito",
+      "troop": "1",
+      "color_name": "White",
+      "hex": "#FFFFFF"
+    },
+    {
+      "class_name": "Oriente Medio",
+      "troop": "1",
+      "color_name": "Olive Drab",
+      "hex": "#6B8E23"
+    },
+    {
+      "class_name": "Nova Guine",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "Inglaterra",
+      "troop": "1",
+      "color_name": "Tamarillo",
+      "hex": "#991613"
+    },
+    {
+      "class_name": "Tchita",
+      "troop": "1",
+      "color_name": "Corn",
+      "hex": "#E7BF05"
+    },
+    {
+      "class_name": "Labrador",
+      "troop": "1",
+      "color_name": "Dark Tan",
+      "hex": "#661010"
+    }
+  ]
+  
