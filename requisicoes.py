@@ -67,13 +67,13 @@ async def predicao_paises(imagem: UploadFile = File(...)):
         caminhoImagem = os.path.join(pastaTemporaria, "temp_image.png")
         imagemPIL.save(caminhoImagem)
 
-        data = model.predict(caminhoImagem, confidence=confianca, overlap=sobrepos).json()
+        dados = model.predict(caminhoImagem, confidence=confianca, overlap=sobrepos).json()
         os.remove(caminhoImagem)  # Remover a imagem temporária após a previsão
 
         predicaos = []
         nomes_classe_achados = [] 
 
-        for predicao_dados in data["predictions"]:
+        for predicao_dados in dados["predictions"]:
             predicao = Predicao(
                 x=predicao_dados["x"],
                 y=predicao_dados["y"],
@@ -107,50 +107,52 @@ async def visualizar_predicao(imagem: UploadFile = File(...)):
         pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
         if not os.path.exists(pastaTemporaria):
             os.makedirs(pastaTemporaria)
-        image_path_param = os.path.join(pastaTemporaria, "temp_image.png")
-        imagemPIL.save(image_path_param)
+        caminhoImagemParam = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(caminhoImagemParam)
 
-        data = model.predict(image_path_param, confidence=confianca, overlap=sobrepos)
+        dados = model.predict(caminhoImagemParam, confidence=confianca, overlap=sobrepos)
 
         pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
         if not os.path.exists(pastaTemporaria):
             os.makedirs(pastaTemporaria)
         
-        image_filename = "Resultado.png"
-        image_path = os.path.join(pastaTemporaria, image_filename)
+        nomeArquivoImagem = "Resultado.png"
+        caminhoImagem = os.path.join(pastaTemporaria, nomeArquivoImagem)
 
-        data.save(output_path=image_path)
+        dados.save(output_path=caminhoImagem)
 
-        if not os.path.exists(image_path):
+        if not os.path.exists(caminhoImagem):
             raise HTTPException(status_code=404, detail="Imagem não encontrada.")
         
-        os.remove(image_path_param)
-        return FileResponse(image_path)
+        os.remove(caminhoImagemParam)
+        return FileResponse(caminhoImagem)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/get-pixel-color/")
-async def get_pixel_color(image: UploadFile = File(...)):
+@app.post("/coletar-cor-pixel/")
+async def coletar_cor_pixel(imagem: UploadFile = File(...)):
     try:
-        conteudo = await image.read()
+        conteudo = await imagem.read()
         imagemPIL = Image.open(io.BytesIO(conteudo))
 
         # Salvar a imagem temporariamente para poder passar o caminho para o modelo
         pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
         if not os.path.exists(pastaTemporaria):
             os.makedirs(pastaTemporaria)
-        image_path = os.path.join(pastaTemporaria, "temp_image.png")
-        imagemPIL.save(image_path)
+        caminhoImagem = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(caminhoImagem)
+        
+        
 
-        predict_image = model.predict(image_path, confidence=confianca, overlap=sobrepos)
-        predict_image.save(output_path=os.path.join(pastaTemporaria, "Resultado.png"))
+        imagem_predicao = model.predict(caminhoImagem, confidence=confianca, overlap=sobrepos)
+        imagem_predicao.save(output_path=os.path.join(pastaTemporaria, "Resultado.png"))
     
-        data = predict_image.json()
+        dados = imagem_predicao.json()
         predicaos = []
         
-        for predicao_data in data["predicaos"]:
-            predicao = Predicao(
+        for predicao_data in dados["predicaos"]:
+            predicoes = Predicao(
                 x=predicao_data["x"],
                 y=predicao_data["y"],
                 width=predicao_data["width"],
@@ -160,30 +162,30 @@ async def get_pixel_color(image: UploadFile = File(...)):
                 image_path=predicao_data["image_path"],
                 predicao_type=predicao_data["predicao_type"]
             )
-            predicaos.append(predicao)
+            predicoes.append(predicoes)
     
-        image_path = os.path.join(pastaTemporaria, "Resultado.png")
-        image = Image.open(image_path)
+        caminhoImagem = os.path.join(pastaTemporaria, "Resultado.png")
+        imagem = Image.open(caminhoImagem)
 
-        result = []
+        resultado = []
 
-        for pred in predicaos:
+        for pred in predicoes:
             x = pred.x
             y = pred.y
             
-            width, height = image.size
-            if x < 0 or x >= width or y < 0 or y >= height:
+            largura, altura = imagem.size
+            if x < 0 or x >= largura or y < 0 or y >= altura:
                 continue
 
-            pixel_color = image.getpixel((x, y))
+            cor_pixel = imagem.getpixel((x, y))
             
-            color_info = Utilidades.coletarInfoCor(Utilidades.RgbParaHex(pixel_color))
+            info_cor = Utilidades.coletarInfoCor(Utilidades.RgbParaHex(cor_pixel))
 
-            result.append({"class_name": pred.class_name, "color_name": color_info.value, "hex": color_info.closest_named_hex})
+            resultado.append({"class_name": pred.class_name, "color_name": info_cor.nome, "hex": info_cor.hexNomeProx})
 
-        os.remove(image_path)  # Remover a imagem temporária após o processamento
+        os.remove(caminhoImagem)  # Remover a imagem temporária após o processamento
 
-        return result
+        return resultado
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -198,12 +200,12 @@ async def extract_text_from_image(image: UploadFile = File(...)):
         pastaTemporaria = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
         if not os.path.exists(pastaTemporaria):
             os.makedirs(pastaTemporaria)
-        image_path = os.path.join(pastaTemporaria, "temp_image.png")
-        imagemPIL.save(image_path)
+        caminhoImagem = os.path.join(pastaTemporaria, "temp_image.png")
+        imagemPIL.save(caminhoImagem)
 
         confidence = 20
         overlap = 20
-        predict_image = model.predict(image_path, confidence=confianca, overlap=sobrepos)
+        predict_image = model.predict(caminhoImagem, confidence=confianca, overlap=sobrepos)
     
         data = predict_image.json()
         predicaos = []
@@ -233,7 +235,7 @@ async def extract_text_from_image(image: UploadFile = File(...)):
             height = pred.height
             
             image_or = Image.open(image_original)
-            image_path = os.path.join(pastaTemporaria, pred.class_name + '.png')
+            caminhoImagem = os.path.join(pastaTemporaria, pred.class_name + '.png')
             
             x1 = x - width / 2
             x2 = x + width / 2
@@ -249,7 +251,7 @@ async def extract_text_from_image(image: UploadFile = File(...)):
 
             box = (x1, y1, x2, y2)
             cropped_image = image_or.crop(box=box)
-            cropped_image.save(image_path)
+            cropped_image.save(caminhoImagem)
             image_paths.append({"class_name": pred.class_name, "image_path": image_path})
             
         for images in image_paths:
