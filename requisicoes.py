@@ -1,11 +1,11 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
 from google.cloud.vision_v1 import types
-from google.cloud import vision
-from roboflow import Roboflow
-from classes.Predicao import *
-from classes.Cor import *
 from classes.Utilidades import *
+from google.cloud import vision
+from classes.Predicao import *
+from roboflow import Roboflow
+from classes.Cor import *
 from PIL import Image
 import requests
 import uvicorn
@@ -97,10 +97,10 @@ async def predicao_paises(imagem: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/predict-view/")
-async def predict_view(image: UploadFile = File(...)):
+@app.post("/visualizar-predicao/")
+async def visualizar_predicao(imagem: UploadFile = File(...)):
     try:
-        conteudo = await image.read()
+        conteudo = await imagem.read()
         imagemPIL = Image.open(io.BytesIO(conteudo))
 
         # Salvar a imagem temporariamente para poder passar o caminho para o modelo
