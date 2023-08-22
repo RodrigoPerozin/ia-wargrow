@@ -52,6 +52,10 @@ class ColorInfo:
     
 def rgb_to_hex(rgb):
     return '{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+
+def hex_to_rgb(hex_color):
+    hex_color = hex_color.lstrip('#')
+    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
     
 
 def get_color_info_api(hex_value: str):
@@ -65,6 +69,14 @@ def get_color_info_api(hex_value: str):
         return ColorInfo(name_value, closest_named_hex)
     else:
         return "Falha ao obter informações da cor."
+    
+color_mapping = {
+    "Amarelo": "#FFFF00",
+    "Vermelho": "#FF0000",
+    "Verde": "#008000",
+    "Roxo": "#800080",
+    "Azul": "#0000FF"
+}
 
 @app.post("/predict/")
 async def predict_json(image: UploadFile = File(...)):
@@ -210,12 +222,23 @@ async def get_pixel_color(image: UploadFile = File(...)):
 
             pixel_color = image.getpixel((x, y))
             
-            color_info = get_color_info_api(rgb_to_hex(pixel_color))
+            rgb_color = hex_to_rgb(rgb_to_hex(pixel_color))
+            
+            closest_color = None
+            min_distance = float('inf')
+            
+            for color_name, color_hex in color_mapping.items():
+                color_rgb = hex_to_rgb(color_hex)
+                distance = sum((a - b) ** 2 for a, b in zip(rgb_color, color_rgb))
+                
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_color = color_name
 
-            result.append({"class_name": pred.class_name, "color_name": color_info.value, "hex": color_info.closest_named_hex})
+            result.append({"class_name": pred.class_name, "color_name": closest_color})
 
         os.remove(image_path)  # Remover a imagem temporária após o processamento
-
+        
         return result
 
     except Exception as e:
