@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from roboflow import Roboflow
 import uvicorn
 import os
-from PIL import Image
+from PIL import Image, ImageDraw
 import requests
 import io
 import json
@@ -58,17 +58,17 @@ def hex_to_rgb(hex_color):
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
     
 
-def get_color_info_api(hex_value: str):
-    api_url = f"https://www.thecolorapi.com/id?hex={hex_value}"
-    response = requests.get(api_url)
+# def get_color_info_api(hex_value: str):
+#     api_url = f"https://www.thecolorapi.com/id?hex={hex_value}"
+#     response = requests.get(api_url)
 
-    if response.status_code == 200:
-        color_info_json = response.json()
-        name_value = color_info_json["name"]["value"]
-        closest_named_hex = color_info_json["name"]["closest_named_hex"]
-        return ColorInfo(name_value, closest_named_hex)
-    else:
-        return "Falha ao obter informações da cor."
+#     if response.status_code == 200:
+#         color_info_json = response.json()
+#         name_value = color_info_json["name"]["value"]
+#         closest_named_hex = color_info_json["name"]["closest_named_hex"]
+#         return ColorInfo(name_value, closest_named_hex)
+#     else:
+#         return "Falha ao obter informações da cor."
     
 color_mapping = {
     "Amarelo": "#FFFF00",
@@ -189,7 +189,6 @@ async def get_pixel_color(image: UploadFile = File(...)):
         pil_image.save(image_path)
 
         predict_image = model.predict(image_path, confidence=confidence, overlap=overlap)
-        predict_image.save(output_path=os.path.join(temp_folder, "Resultado.png"))
     
         data = predict_image.json()
         predictions = []
@@ -206,8 +205,7 @@ async def get_pixel_color(image: UploadFile = File(...)):
                 prediction_type=prediction_data["prediction_type"]
             )
             predictions.append(prediction)
-    
-        image_path = os.path.join(temp_folder, "Resultado.png")
+        
         image = Image.open(image_path)
 
         result = []
@@ -278,9 +276,9 @@ async def extract_text_from_image(image: UploadFile = File(...)):
             predictions.append(prediction)
         
         result = []
-        image_paths = []
 
         image_original = os.path.join(temp_folder, "temp_image.png")
+        image_paths = []
         
         for pred in predictions:
             x = pred.x
@@ -343,6 +341,112 @@ async def apply_logic():
     
     
     return data
+
+@app.post("/examine-pixel/")
+async def get_pixel_color(image: UploadFile = File(...)):
+    try:
+        content = await image.read()
+        pil_image = Image.open(io.BytesIO(content))
+
+        # Salvar a imagem temporariamente para poder passar o caminho para o modelo
+        temp_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp")
+        if not os.path.exists(temp_folder):
+            os.makedirs(temp_folder)
+        image_path = os.path.join(temp_folder, "temp_image.png")
+        pil_image.save(image_path)
+
+        predict_image = model.predict(image_path, confidence=confidence, overlap=overlap)
+    
+        data = predict_image.json()
+        predictions = []
+        
+        for prediction_data in data["predictions"]:
+            prediction = Prediction(
+                x=prediction_data["x"],
+                y=prediction_data["y"],
+                width=prediction_data["width"],
+                height=prediction_data["height"],
+                confidence=prediction_data["confidence"],
+                class_name=prediction_data["class"],
+                image_path=prediction_data["image_path"],
+                prediction_type=prediction_data["prediction_type"]
+            )
+            predictions.append(prediction)
+        
+        image = Image.open(image_path)
+
+        marked_image = pil_image.copy()
+        draw = ImageDraw.Draw(marked_image)
+        result = []
+        
+        for pred in predictions:
+            x = pred.x
+            y = pred.y
+            
+            if pred.class_name == "Peru":   
+                x = x - 7
+            if pred.class_name == "Argentina":
+                x = x + 5
+            if pred.class_name == "Mexico":
+                x = x - 9
+                y = y + 7
+            if pred.class_name == "Venezuela":
+                y = y + 3
+            if pred.class_name == "Suecia":
+                x = x - 7
+            if pred.class_name == "Polinia":
+                y = y - 6
+                x = x + 5
+            if pred.class_name == "Egito":
+                x = x + 7
+            if pred.class_name == "Islandia":
+                x = x + 7
+            if pred.class_name == "Inglaterra":
+                x = x + 7
+            if pred.class_name == "Sudao":
+                x = x - 10
+            if pred.class_name == "Madagascar":
+                x = x - 10
+            if pred.class_name == "Dudinka":
+                x = x + 8
+            if pred.class_name == "india":
+                x = x - 10
+            if pred.class_name == "Nova Guine":
+                x = x - 3
+            if pred.class_name == "Groenlandia":
+                y = y - 40
+            
+                    
+            pixel_color = pil_image.getpixel((x, y)) 
+            
+            rgb_color = hex_to_rgb(rgb_to_hex(pixel_color))
+            
+            closest_color = None
+            min_distance = float('inf')
+            
+            for color_name, color_hex in color_mapping.items():
+                color_rgb = hex_to_rgb(color_hex)
+                distance = sum((a - b) ** 2 for a, b in zip(rgb_color, color_rgb))
+                
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_color = color_name
+
+            result.append({"class_name": pred.class_name, "color_name": closest_color})
+            
+            
+            radius = 1
+            ellipse_coords = (x - radius, y - radius, x + radius, y + radius)
+            
+            draw.ellipse(ellipse_coords, outline=(255, 255, 255))
+        
+        marked_image_path = os.path.join(temp_folder, "marked_image.png")
+        marked_image.save(marked_image_path)
+        
+        return result
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":
