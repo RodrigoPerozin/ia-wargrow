@@ -1,9 +1,8 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-import uvicorn
 
 app = FastAPI()
 
-from Services.ImagePredictionService import predict_json, predict_countries_map, predict_view_result, get_colors_image
+from Services.ImagePredictionService import predict_json, predict_countries_map, predict_view_result, get_colors_image, get_data_test
 
 app = FastAPI()
 
@@ -38,7 +37,11 @@ async def get_pixel_color(image: UploadFile = File(...)):
         return await get_colors_image(image)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/get-data/")
+async def get_data():
+    try:
+        return await get_data_test()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

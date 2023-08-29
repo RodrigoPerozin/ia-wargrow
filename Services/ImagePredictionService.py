@@ -2,6 +2,7 @@ from fastapi import File, UploadFile
 from PIL import Image, ImageDraw
 import io
 import os
+import json
 from fastapi import HTTPException
 from fastapi.responses import FileResponse
 
@@ -135,6 +136,15 @@ async def get_colors_image(image: UploadFile = File(...)):
         
     return result
 
+
+async def get_data_test():
+    print("Entrou")
+    try:
+        with open("/resultado.json", 'r') as json_file:
+            conteudo = json.load(json_file)
+        return conteudo
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     
     
 
