@@ -138,9 +138,8 @@ async def get_colors_image(image: UploadFile = File(...)):
 
 
 async def get_data_test():
-    print("Entrou")
     try:
-        with open("/resultado.json", 'r') as json_file:
+        with open("resultado.json", 'r') as json_file:
             conteudo = json.load(json_file)
         return conteudo
     except Exception as e:
