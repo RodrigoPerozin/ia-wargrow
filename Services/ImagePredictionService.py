@@ -79,7 +79,7 @@ async def get_colors_image(image: UploadFile = File(...)):
     temp_folder = get_folder_temp()
     pil_image = Image.open(io.BytesIO(content))
     
-    image_path = await save_temp_image(pil_image)
+    image_path = save_temp_image(pil_image)
 
     roboflow_instance = RoboflowPredictor()  
     data = await roboflow_instance.predict_json(image_path)
@@ -125,7 +125,7 @@ async def get_colors_image(image: UploadFile = File(...)):
         result.append({"class_name": pred.class_name, "color_name": closest_color})
             
             
-        radius = 1
+        radius = 20
         ellipse_coords = (x - radius, y - radius, x + radius, y + radius)
             
         draw.ellipse(ellipse_coords, outline=(255, 255, 255))
