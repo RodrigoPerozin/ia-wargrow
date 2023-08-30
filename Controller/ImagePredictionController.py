@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from Services.ImagePredictionService import predict_json, predict_countries_map, predict_view_result, get_colors_image, predict_value_total, get_data_test
+from Services.ImagePredictionService import predict_troop_and_color, predict_json, predict_countries_map, predict_view_result, get_colors_image, predict_value_total, get_data_test
 app = FastAPI()
 
 @app.post("/predict/")
@@ -45,6 +45,13 @@ async def get_data():
 async def predict_value(image: UploadFile = File(...)):
     try:
         return await predict_value_total(image)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/predict-complete/")
+async def predict_complete(image: UploadFile = File(...)):
+    try:
+        return await predict_troop_and_color(image)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
