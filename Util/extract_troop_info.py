@@ -2,7 +2,6 @@ import os
 from google.cloud import vision
 from google.cloud.vision_v1 import types
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\git\ia-wargrow\Services\key.json"
 client = vision.ImageAnnotatorClient()
 
 def extract_troop_info(cropped_image_path):

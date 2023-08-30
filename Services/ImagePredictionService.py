@@ -19,7 +19,6 @@ from Util.json_to_class_predictions import json_to_class_predictions
 from Model.Prediction import Prediction
 from Model.RoboflowPredictor import RoboflowPredictor
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\git\ia-wargrow\Services\key.json"
 client = vision.ImageAnnotatorClient()
 
 async def predict_json(image: UploadFile = File(...)):
