@@ -4,8 +4,7 @@ from Services.ImagePredictionService import predict_troop_and_color, predict_jso
 app = FastAPI()
 
 origins = [
-    "http://127.0.0.1:5500",  # Seu frontend
-    "http://localhost:5500",  # Outra variação do endereço do frontend
+    "*"  # Outra variação do endereço do frontend
 ]
 
 app.add_middleware(
