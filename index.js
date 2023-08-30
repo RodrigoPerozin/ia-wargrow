@@ -16,10 +16,20 @@ async function doMovement() {
 
                 formData.append('image', file)
 
-                const response = await fetch('http://localhost:8000' {
+                const response = await fetch('http://127.0.0.1:8000/predict-complete', {
                     method: 'POST',
                     body: formData,
                 });
+
+                const jsonData = await response.json();
+
+                const responseNode = await fetch('http://127.0.0.1:3000/movement?color=' + color +  '&troops=10', {
+                    method: 'POST',
+                    body: jsonData,
+                })
+
+                console.log(response)
+                console.log(responseNode)
 
             } catch (error) {
                 alert(error);
