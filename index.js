@@ -14,9 +14,9 @@ async function doMovement() {
 
                 const formData = new FormData();
 
-                formData.append('file', file)
+                formData.append('image', file)
 
-                const response = await fetch('http://localhost:3000/movement?color=' + color + '&firstMove=' + firstMove, {
+                const response = await fetch('http://localhost:8000' {
                     method: 'POST',
                     body: formData,
                 });
