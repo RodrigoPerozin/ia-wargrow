@@ -1,6 +1,20 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from Services.ImagePredictionService import predict_troop_and_color, predict_json, predict_countries_map, predict_view_result, get_colors_image, predict_value_total, get_data_test
 app = FastAPI()
+
+origins = [
+    "http://127.0.0.1:5500",  # Seu frontend
+    "http://localhost:5500",  # Outra variação do endereço do frontend
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/predict/")
 async def predict(image: UploadFile = File(...)):
