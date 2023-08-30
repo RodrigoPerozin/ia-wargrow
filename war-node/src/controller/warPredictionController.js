@@ -14,7 +14,7 @@ const warPredictionController = {
 
                 unhandledCountry.class_name = unhandledCountry.class_name.replaceAll(' ', '_')
 
-                const country = new Country(unhandledCountry.class_name, unhandledCountry.color);
+                const country = new Country(unhandledCountry.class_name, unhandledCountry.color_name);
 
                 handledCountries.push(country);
 

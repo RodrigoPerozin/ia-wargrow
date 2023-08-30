@@ -5,6 +5,7 @@ elementButton.addEventListener('click', doMovement)
 async function doMovement() {
 
     const color = document.getElementById('team-color').value;
+    const troops = document.getElementById('troops').value;
     const firstMove = document.getElementById('first-move').value;
     const file = document.getElementById('file-receiver').files[0]
 
@@ -21,11 +22,15 @@ async function doMovement() {
                     body: formData,
                 });
 
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
                 const jsonData = await response.json();
 
-                const responseNode = await fetch('http://127.0.0.1:3000/movement?color=' + color +  '&troops=10', {
+                const responseNode = await fetch('http://127.0.0.1:3000/movement?color=' + color +  '&troops=' + troops, {
                     method: 'POST',
                     body: jsonData,
+                    headers: headers
                 })
 
                 console.log(response)

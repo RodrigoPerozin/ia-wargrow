@@ -7,14 +7,12 @@ const warPredictionController = require('../controller/warPredictionController')
 app.use(express.json());
 app.use(cors())
 
-// movement
+
 app.post('/movement', (req, res) => {
 
     const data = req.body;
-    //fazer logica de chamar a request e python
-
     const troops = req.query.troops;
-    const colorTeam = req.query.colorTeam;
+    const colorTeam = req.query.color;
 
     if (data && data.length) {
 
