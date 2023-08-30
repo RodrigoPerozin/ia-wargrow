@@ -47,7 +47,7 @@ async def get_pixel_color(image: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-@app.get("/get-data/")
+@app.post("/predict-complete-test/")
 async def get_data():
     try:
         return await get_data_test()

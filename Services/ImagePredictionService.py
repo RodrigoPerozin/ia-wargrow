@@ -246,8 +246,5 @@ async def predict_troop_and_color(image: UploadFile = File(...)):
             "troop": troop
         })
         
-    return result
-    
-    
-
+    return json.dumps(result)
     
