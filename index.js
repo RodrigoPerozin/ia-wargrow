@@ -7,6 +7,7 @@ async function doMovement() {
     const color = document.getElementById('team-color').value;
     const troops = document.getElementById('troops').value;
     const firstMove = document.getElementById('first-move').value;
+    const resultElement = document.getElementById('result-play')
     const file = document.getElementById('file-receiver').files[0]
 
     if (file && color) {
@@ -25,6 +26,7 @@ async function doMovement() {
                 const headers = {
                     'Content-Type': 'application/json'
                 };
+
                 const jsonData = await response.json();
 
                 const responseNode = await fetch('http://127.0.0.1:3000/movement?color=' + color +  '&troops=' + troops, {
@@ -32,9 +34,12 @@ async function doMovement() {
                     body: jsonData,
                     headers: headers
                 })
+                
+                const objResult = await responseNode.json();
 
-                console.log(response)
-                console.log(responseNode)
+                console.log(objResult)
+
+                resultElement.textContent = objResult.message;
 
             } catch (error) {
                 alert(error);

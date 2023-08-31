@@ -28,7 +28,11 @@ app.post('/movement', (req, res) => {
                 movementsStr += "\nMova " + movement.quantityTroops + ' unidades para o pais: ' + movement.country.name + '\n'
             }
 
-            res.status(200).send(movementsStr);
+            const objResult = {};
+
+            objResult.message = movementsStr;
+
+            res.status(200).send(JSON.stringify(objResult));
 
         } else {
             res.status(500).send();
