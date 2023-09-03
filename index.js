@@ -19,6 +19,11 @@ async function doMovement() {
     const troops = document.getElementById('troops').value;
     const resultElement = document.getElementById('result-play');
     const file = document.getElementById('file-receiver').files[0];
+    const loading = document.getElementById('loading'); // Elemento de loading
+    const button = document.getElementById('do-movement'); // Elemento do botão
+    button.disabled = true;
+
+    loading.style.display = 'block';
 
     if (file && color) {
         try {
@@ -59,19 +64,21 @@ async function doMovement() {
                 });
                 objResult = await responseNode.json();
             }
-            console.log(objResult);
 
             const messagesArray = objResult.message.toString().split('\n');
 
-            // Gerar a lista em HTML
             const htmlList = '<ul>' + messagesArray.map(message => `<li>${message}</li>`).join('') + '</ul>';
-    
-            // Adicionar a lista ao elemento com o ID "message-list"
+
             document.getElementById('message-list').innerHTML = htmlList;
+
+            loading.style.display = 'none';
         } catch (error) {
             alert(error);
+            loading.style.display = 'none';
         }
     } else {
         document.getElementById('validations').textContent = 'Informe o campo cor e o print para execução da jogada!';
+        loading.style.display = 'none';
     }
+    button.disabled = false; // Habilitar o botão novamente
 }
