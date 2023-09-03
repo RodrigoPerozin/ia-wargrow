@@ -2,77 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-
-        div {
-            margin-bottom: 10px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        select, input[type="text"], input[type="file"], button {
-            width: 90%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        select {
-            width: 94%;
-        }
-
-        button {
-            width: 100%; /* Defina a largura dos botões para 100% */
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        #troops-container {
-            display: none;
-        }
-
-        #validations {
-            color: red;
-        }
-
-        #result-play {
-            margin-top: 20px;
-        }
-
-        .loading {
-            display: none; /* Inicialmente oculto */
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite; /* Animação de rotação */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-top: -25px; /* Metade da altura */
-            margin-left: -25px; /* Metade da largura */
-            z-index: 9999; /* Certifique-se de que este elemento esteja acima de tudo */
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
 </head>
 <body>
     <div>
@@ -103,6 +32,7 @@
     <div class="loading" id="loading"></div>
     <strong id="validations"></strong>
     <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
     <div id="message-list"></div>
 </body>
 </html>
