@@ -21,6 +21,7 @@ async function doMovement() {
     const file = document.getElementById('file-receiver').files[0];
     const loading = document.getElementById('loading'); // Elemento de loading
     const button = document.getElementById('do-movement'); // Elemento do botão
+    const objId = document.getElementById('obj-id').value;  
     button.disabled = true;
 
     loading.style.display = 'block';
@@ -43,7 +44,7 @@ async function doMovement() {
             let objResult = null;
 
             if (movementType === 'attack') {
-                const responseNode = await fetch(`http://127.0.0.1:3000/attack?color=${color}`, {
+                const responseNode = await fetch(`http://127.0.0.1:3000/attack?color=${color}&obj=${objId}`, {
                     method: 'POST',
                     body: jsonData,
                     headers: headers

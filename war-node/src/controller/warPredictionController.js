@@ -1,6 +1,8 @@
 const Country = require('../model/countryModel');
 const Movement = require('../model/movementModel')
 const frontiersConstants = require('../constants/frontiersConstants')
+const objConstants = require('../constants/objConstants')
+const continentConstants = require('../constants/continentConstants')
 
 const warPredictionController = {
 
@@ -71,9 +73,7 @@ const warPredictionController = {
                 })
 
             }
-
             return movements;
-
         }
 
     },
@@ -112,29 +112,34 @@ const warPredictionController = {
     },
     alreadyMoved(movements, country) {
         return movements.filter(movement => movement.country === country).length;
-    },
-    doAttack(data, colorTeam) {
+    },    
+    doAttack(data, colorTeam, objectiveId) {
+
+        function calculateTroopsToTransfer(attackerTroops, defenderTroops) {
+            return Math.max(Math.floor(attackerTroops / 2), 1);
+        }
+
         function calculateWinProbability(attackerTroops, defenderTroops, troopsToTransfer) {
             const attackerTroopsSimulation = Math.min(attackerTroops, 3);
             const defenderTroopsSimulation = Math.min(defenderTroops, 2);
-
+        
             const attackerResults = [];
             const defenderResults = [];
-
+        
             for (let i = 0; i < attackerTroopsSimulation; i++) {
                 attackerResults.push(Math.floor(Math.random() * 6) + 1);
             }
-
+        
             for (let i = 0; i < defenderTroopsSimulation; i++) {
                 defenderResults.push(Math.floor(Math.random() * 6) + 1);
             }
-
+        
             attackerResults.sort((a, b) => b - a);
             defenderResults.sort((a, b) => b - a);
-
+        
             let attackerWins = 0;
             let defenderWins = 0;
-
+        
             for (let i = 0; i < Math.min(attackerTroopsSimulation, defenderTroopsSimulation); i++) {
                 if (attackerResults[i] > defenderResults[i]) {
                     attackerWins++;
@@ -142,47 +147,65 @@ const warPredictionController = {
                     defenderWins++;
                 }
             }
-
+        
             const attackerWinProbability = attackerWins / attackerTroopsSimulation;
-
+        
             const troopsToTransferCalculated = Math.min(attackerTroops - 1, troopsToTransfer);
             const troopsPassed = attackerTroops - troopsToTransferCalculated;
-
+        
             return {
                 winProbability: attackerWinProbability,
                 troopsPassed,
                 troopsToTransfer: troopsToTransferCalculated,
             };
         }
-
-        function calculateTroopsToTransfer(attackerTroops, defenderTroops) {
-            // Lógica para determinar o número de tropas a serem transferidas
-            // Por exemplo, você pode considerarando trasnferir metade das tropas
-            return Math.max(Math.floor(attackerTroops / 2), 1); // Pelo menos 1 tropa deve ser transferida
-        }
-
+        
         const bestMoves = [];
-
+        const objective = objConstants.objConstants.find((obj) => obj.id == objectiveId);
+    
+        if (!objective) {
+            console.error("Objetivo não encontrado.");
+            return bestMoves;
+        }
+    
         for (const territory of data) {
             const attackerTroops = parseInt(territory.troop);
-
-            if (territory.color_name === colorTeam) {
+    
+            const continent = continentConstants.continentConstants.find((cont) =>
+                cont.frontiers.includes(territory.class_name.toLowerCase())
+            );
+    
+            if (attackerTroops >= 2 && territory.color_name === colorTeam && continent) {
                 const borders = frontiersConstants.countriesFrontiers.find(
                     (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
                 );
-
+    
                 if (borders && borders.frontiers.length > 0) {
                     for (const destinationTerritoryName of borders.frontiers) {
                         const destinationTerritory = data.find(
                             (t) => t.class_name.toLowerCase() === destinationTerritoryName.toLowerCase()
                         );
-
+    
                         if (
                             destinationTerritory &&
                             destinationTerritory.color_name !== colorTeam
                         ) {
                             const defenderTroops = parseInt(destinationTerritory.troop);
-                            const troopsToTransfer = calculateTroopsToTransfer(attackerTroops, defenderTroops);
+                            let troopsToTransfer;
+    
+                            if (objective.regions) {
+                                troopsToTransfer = calculateTroopsToTransfer(attackerTroops, defenderTroops);
+                            } else if (objective.enemyColor) {
+                                troopsToTransfer = attackerTroops - 1;
+                            } else if (objective.territoryCount) {
+                                const requiredTerritoryCount = objective.territoryCount;
+                                if (attackerTroops > requiredTerritoryCount) {
+                                    troopsToTransfer = calculateTroopsToTransfer(attackerTroops, defenderTroops);
+                                } else {
+                                    troopsToTransfer = 0;
+                                }
+                            }
+    
                             const result = calculateWinProbability(
                                 attackerTroops,
                                 defenderTroops,
@@ -198,9 +221,9 @@ const warPredictionController = {
                 }
             }
         }
-
+    
         return bestMoves;
-    },
+    },    
     findBestTransfersToReinforce(data, colorTeam) {
         const bestTransfers = [];
         let maxTroopDifference = 0;

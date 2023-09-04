@@ -68,15 +68,15 @@ const frontiersConstants = {
         },
         {
             countryName: "franca",
-            frontiers: ["polonia", "alemanha", "inglaterra", "argelia"]
+            frontiers: ["polinia", "alemanha", "inglaterra", "argelia"]
         },
         {
-            countryName: "polonia",
+            countryName: "polinia",
             frontiers: ["alemanha", "moscou", "franca", "oriente_medio", "egito"]
         },
         {
             countryName: "alemanha",
-            frontiers: ["inglaterra", "polonia", "franca"]
+            frontiers: ["inglaterra", "polinia", "franca"]
         },
         {
             countryName: "suecia",
@@ -84,11 +84,11 @@ const frontiersConstants = {
         },
         {
             countryName: "moscou",
-            frontiers: ["suecia", "omsk", "oriente_medio", "polonia", "aral"]
+            frontiers: ["suecia", "omsk", "oriente_medio", "polinia", "aral"]
         },
         {
             countryName: "egito",
-            frontiers: ["argelia", "sudao", "oriente_medio", "polonia", "franca"]
+            frontiers: ["argelia", "sudao", "oriente_medio", "polinia", "franca"]
         },
         {
             countryName: "sudao",
@@ -132,7 +132,7 @@ const frontiersConstants = {
         },
         {
             countryName: "oriente_medio",
-            frontiers: ["aral", "india", "egito", "polonia", "moscou"]
+            frontiers: ["aral", "india", "egito", "polinia", "moscou"]
         },
         {
             countryName: "mongolia",

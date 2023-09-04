@@ -47,12 +47,13 @@ app.post('/movement', (req, res) => {
 app.post('/attack', (req, res) => {
     const data = req.body;
     const colorTeam = req.query.color;
+    const objId = req.query.obj;
 
     if (!data || !data.length || !colorTeam) {
         return res.status(400).json({ message: 'Dados de ataque inválidos.' });
     }
 
-    const handledCountries = warPredictionController.doAttack(data, colorTeam);
+    const handledCountries = warPredictionController.doAttack(data, colorTeam, objId);
 
     attackMessagesArray = [];
 

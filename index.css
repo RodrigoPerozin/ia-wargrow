@@ -3,10 +3,15 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 div {
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 label {
@@ -14,14 +19,9 @@ label {
 }
 
 select, input[type="text"], input[type="file"], button {
-    width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-}
-
-select {
-    width: 94%;
 }
 
 button {
@@ -66,4 +66,13 @@ button:hover {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.container {
+    max-width: 650px;
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
 }
