@@ -20,23 +20,23 @@ const frontiersConstants = {
         },
         {
             countryName: "mexico",
-            frontiers: ["venezuela", "nova_york", "california"]
+            frontiers: ["venezuela", "nova york", "california"]
         },
         {
             countryName: "mexico",
-            frontiers: ["venezuela", "nova_york", "california"]
+            frontiers: ["venezuela", "nova york", "california"]
         },
         {
-            countryName: "nova_york",
+            countryName: "nova york",
             frontiers: ["mexico", "california", "ottawa", "labrador"]
         },
         {
             countryName: "california",
-            frontiers: ["nova_york", "ottawa", "vancouver", "mexico"]
+            frontiers: ["nova york", "ottawa", "vancouver", "mexico"]
         },
         {
             countryName: "ottawa",
-            frontiers: ["labrador", "nova_york", "california", "vancouver", "mackenzie"]
+            frontiers: ["labrador", "nova york", "california", "vancouver", "mackenzie"]
         },
         {
             countryName: "vancouver",
@@ -44,7 +44,7 @@ const frontiersConstants = {
         },
         {
             countryName: "labrador",
-            frontiers: ["ottawa", "nova_york", "groenlandia"]
+            frontiers: ["ottawa", "nova york", "groenlandia"]
         },
         {
             countryName: "mackenzie",
@@ -72,7 +72,7 @@ const frontiersConstants = {
         },
         {
             countryName: "polinia",
-            frontiers: ["alemanha", "moscou", "franca", "oriente_medio", "egito"]
+            frontiers: ["alemanha", "moscou", "franca", "oriente medio", "egito"]
         },
         {
             countryName: "alemanha",
@@ -84,11 +84,11 @@ const frontiersConstants = {
         },
         {
             countryName: "moscou",
-            frontiers: ["suecia", "omsk", "oriente_medio", "polinia", "aral"]
+            frontiers: ["suecia", "omsk", "oriente medio", "polinia", "aral"]
         },
         {
             countryName: "egito",
-            frontiers: ["argelia", "sudao", "oriente_medio", "polinia", "franca"]
+            frontiers: ["argelia", "sudao", "oriente medio", "polinia", "franca"]
         },
         {
             countryName: "sudao",
@@ -96,15 +96,15 @@ const frontiersConstants = {
         },
         {
             countryName: "congo",
-            frontiers: ["sudao", "africa_do_sul", "argelia"]
+            frontiers: ["sudao", "africa do sul", "argelia"]
         },
         {
-            countryName: "africa_do_sul",
+            countryName: "africa do sul",
             frontiers: ["madagascar", "congo", "sudao"]
         },
         {
             countryName: "madagascar",
-            frontiers: ["africa_do_sul", "sudao"]
+            frontiers: ["africa do sul", "sudao"]
         },
         {
             countryName: "vladvostok",
@@ -128,10 +128,10 @@ const frontiersConstants = {
         },
         {
             countryName: "aral",
-            frontiers: ["omsk", "china", "moscou", "oriente_medio", "india"]
+            frontiers: ["omsk", "china", "moscou", "oriente medio", "india"]
         },
         {
-            countryName: "oriente_medio",
+            countryName: "oriente medio",
             frontiers: ["aral", "india", "egito", "polinia", "moscou"]
         },
         {
@@ -152,7 +152,7 @@ const frontiersConstants = {
         },
         {
             countryName: "india",
-            frontiers: ["oriente_medio", "china", "aral", "vietna", "sumatra"]
+            frontiers: ["oriente medio", "china", "aral", "vietna", "sumatra"]
         }
     ]
 
