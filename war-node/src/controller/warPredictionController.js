@@ -110,9 +110,11 @@ const warPredictionController = {
         return groupByColor;
 
     },
+    
     alreadyMoved(movements, country) {
         return movements.filter(movement => movement.country === country).length;
     },
+
     doAttack(data, colorTeam) {
         function calculateWinProbability(attackerTroops, defenderTroops) {
             // Mínimo de 1 e máximo de 3 tropas para o atacante
