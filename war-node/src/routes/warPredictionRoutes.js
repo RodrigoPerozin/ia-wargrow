@@ -52,22 +52,30 @@ app.post("/movement", (req, res) => {
     return res.status(200).json(responseObj);
 });
 
-app.post("/attack/:color/:obj", (req, res) => {
+app.post("/attack", (req, res) => {
+
     const data = req.body;
-    const colorTeam = req.params.color;
-    const objId = req.params.obj;
+
+    const colorTeam = req.query.color;
+    const objId = req.query.obj;
 
     if (!data || !data.length || !colorTeam) {
         return res.status(400).json({ message: "Dados de ataque inválidos." });
     }
 
     const bestMove = attackController.doAttack(data, colorTeam);
+    const objResult = {};
+    let msg = "";
 
-    const msg = `${bestMove.attacker} ataca ${bestMove.defender}`;
+    if (bestMove) {
+        msg += `${bestMove.attacker} ataca ${bestMove.defender}`;
+    } else {
+        msg = "Não ataque!"
+    }
 
-    console.log(msg);
+    objResult.message = msg
+    return res.status(200).json(objResult);
 
-    return res.status(200).json(msg);
 });
 
 app.post("/move-troop", (req, res) => {

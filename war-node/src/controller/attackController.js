@@ -1,11 +1,13 @@
 const frontiersConstants = require("../constants/frontiersConstants");
 
 function calculateWinProbability(attackerTroops, defenderTroops) {
-    return attackerTroops - 1 - defenderTroops;
+    return (attackerTroops - 1) - defenderTroops;
 }
 
 const attackController = {
+
     doAttack(data, colorTeam) {
+
         let possibleMoves = [];
         // let highestProbability = 0;
         for (const territory of data) {
@@ -62,11 +64,18 @@ const attackController = {
             }
         }
 
-        const sortedList = possibleMoves.sort((x) => {
-            return x.probability;
-        });
+        if (possibleMoves && possibleMoves.length) {
 
-        return sortedList[0];
+            const sortedList = possibleMoves.sort((x) => {
+                return x.probability;
+            });
+
+            return sortedList[0];
+
+        }
+
+        return null;
+
     },
 };
 
