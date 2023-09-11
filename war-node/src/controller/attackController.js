@@ -4,11 +4,10 @@ function calculateWinProbability(attackerTroops, defenderTroops) {
     return attackerTroops - 1 - defenderTroops;
 }
 
-
 const attackController = {
     doAttack(data, colorTeam) {
         let possibleMoves = [];
-        let highestProbability = 0;
+        // let highestProbability = 0;
         for (const territory of data) {
             const attackerTroops = parseInt(territory.troop);
 
@@ -19,9 +18,7 @@ const attackController = {
 
             // Verifique as fronteiras deste território usando frontiersConstants
             const borders = frontiersConstants.countriesFrontiers.find(
-                (country) =>
-                    country.countryName.toLowerCase() ===
-                    territory.class_name.toLowerCase()
+                (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
             );
 
             if (!borders || !(borders.frontiers.length > 0)) continue;
@@ -29,32 +26,23 @@ const attackController = {
             for (const destinationTerritoryName of borders.frontiers) {
                 // Encontre o território de destino correspondente
                 const destinationTerritory = data.find(
-                    (t) =>
-                        t.class_name.toLowerCase() ===
-                        destinationTerritoryName.toLowerCase()
+                    (t) => t.class_name.toLowerCase() === destinationTerritoryName.toLowerCase()
                 );
 
-                if (
-                    destinationTerritory &&
-                    destinationTerritory.color_name !== colorTeam
-                ) {
+                if (destinationTerritory && destinationTerritory.color_name !== colorTeam) {
                     const defenderTroops = parseInt(destinationTerritory.troop);
                     // Calcular a probabilidade de vitória
-                    const winProbability = calculateWinProbability(
-                        attackerTroops,
-                        defenderTroops
-                    );
+                    const winProbability = calculateWinProbability(attackerTroops, defenderTroops);
 
                     // Defina um limiar de probabilidade para decidir se você deseja atacar
-                    const probabilityThreshold = 0.5; // Ajuste conforme necessário
+                    // const probabilityThreshold = 0.5; // Ajuste conforme necessário
                     // Verifique se esta jogada é uma das melhores
 
                     possibleMoves.push({
                         attacker: territory.class_name,
                         defender: destinationTerritory.class_name,
                         probability: winProbability,
-                    })
-
+                    });
 
                     // if (winProbability > probabilityThreshold) {
                     //     if (winProbability > highestProbability) {
@@ -76,9 +64,9 @@ const attackController = {
 
         const sortedList = possibleMoves.sort((x) => {
             return x.probability;
-        })
+        });
 
-        return bestMoves;
+        return sortedList[0];
     },
 };
 

@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const PORT = 3000;
 const warPredictionController = require("../controller/warPredictionController");
-const attackController  = require("../controller/attackController");
+const attackController = require("../controller/attackController");
 
 app.use(express.json());
 app.use(cors());
@@ -52,10 +52,10 @@ app.post("/movement", (req, res) => {
     return res.status(200).json(responseObj);
 });
 
-app.post("/attack", (req, res) => {
+app.post("/attack/:color/:obj", (req, res) => {
     const data = req.body;
-    const colorTeam = req.query.color;
-    const objId = req.query.obj;
+    const colorTeam = req.params.color;
+    const objId = req.params.obj;
 
     if (!data || !data.length || !colorTeam) {
         return res.status(400).json({ message: "Dados de ataque inválidos." });
@@ -102,5 +102,5 @@ app.post("/move-troop", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
