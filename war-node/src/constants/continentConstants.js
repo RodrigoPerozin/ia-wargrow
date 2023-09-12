@@ -10,7 +10,7 @@ const continentConstants = {
         },
         {
             continent: 'Europa',
-            frontiers: ["islandia", "suecia", "inglaterra", "franca", "alemanha", "polinia", "moscou"]
+            frontiers: ["islandia", "suecia", "inglaterra", "franca", "alemanha", "polonia", "moscou"]
         },
         {
             continent: 'Africa',
