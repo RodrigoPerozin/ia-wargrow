@@ -6,6 +6,7 @@ const objConstants = {
             regions: ["EUROPA", "OCEANIA", "ANY"],
             territoryCount: 0,
             enemyColor: "",
+            type: 'REGION'
         },
         {
             id: 2,
@@ -13,6 +14,7 @@ const objConstants = {
             regions: ["ASIA", "AMERICA DO SUL"],
             territoryCount: 0,
             enemyColor: "",
+            type: 'REGION'
         },
         {
             id: 3,
@@ -20,6 +22,7 @@ const objConstants = {
             regions: ["EUROPA", "AMERICA DO SUL", "ANY"],
             territoryCount: 0,
             enemyColor: "",
+            type: 'REGION'
         },
         {
             id: 4,
@@ -27,6 +30,7 @@ const objConstants = {
             regions: ["ANY"],
             territoryCount: 18,
             enemyColor: "",
+            type: 'TERRITORY'
         },
         {
             id: 5,
@@ -34,6 +38,7 @@ const objConstants = {
             regions: ["ASIA", "AFRICA"],
             territoryCount: 0,
             enemyColor: "",
+            type: 'REGION'
         },
         {
             id: 6,
@@ -41,6 +46,7 @@ const objConstants = {
             regions: ["AMERICA DO NORTE", "AFRICA"],
             territoryCount: 0,
             enemyColor: "",
+            type: 'REGION'
         },
         {
             id: 7,
@@ -48,6 +54,7 @@ const objConstants = {
             regions: ["ANY"],
             territoryCount: 24,
             enemyColor: "",
+            type: 'TERRITORY'
         },
         {
             id: 8,
@@ -55,6 +62,7 @@ const objConstants = {
             regions: ["AMERICA DO NORTE", "OCEANIA"],
             territoryCount: 0,
             enemyColor: "",
+            type: 'REGION'
         },
         {
             id: 9,
@@ -62,6 +70,7 @@ const objConstants = {
             regions: ["ANY"],
             territoryCount: 0,
             enemyColor: "AZUL",
+            type: 'COLOR'
         },
         {
             id: 10,
@@ -69,6 +78,7 @@ const objConstants = {
             regions: ["ANY"],
             territoryCount: 0,
             enemyColor: "AMARELO",
+            type: 'COLOR'
         },
         {
             id: 11,
@@ -76,6 +86,7 @@ const objConstants = {
             regions: ["ANY"],
             territoryCount: 0,
             enemyColor: "VERMELHO",
+            type: 'COLOR'
         },
         {
             id: 12,
@@ -83,6 +94,7 @@ const objConstants = {
             regions: ["ANY"],
             territoryCount: 0,
             enemyColor: "ROXO",
+            type: 'COLOR'
         },
         {
             id: 13,
@@ -90,6 +102,7 @@ const objConstants = {
             regions: ["ANY"],
             territoryCount: 0,
             enemyColor: "VERDE",
+            type: 'COLOR'
         },
     ]
 }
