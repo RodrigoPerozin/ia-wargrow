@@ -215,7 +215,7 @@ const warPredictionController = {
 
                         if (
                             frontierTerritory &&
-                            frontierTerritory.color_name === colorTeam
+                            frontierTerritory.color_name.toLowerCase() === colorTeam.toLowerCase()
                         ) {
                             // Calcule a diferença entre as tropas nos territórios
                             const troopDifference = territory.troop - frontierTerritory.troop;
@@ -227,7 +227,8 @@ const warPredictionController = {
                             }
 
                             // Se a diferença for igual à máxima registrada, adicione ao array
-                            if (troopDifference === maxTroopDifference) {
+                            //verifica se a diferença de tropas é maior que 0, para ser possível fazer o ataque
+                            if (troopDifference === maxTroopDifference && troopDifference > 0) {
                                 const transferMessage = `Mova ${troopDifference} tropas do ${territory.class_name} para o ${frontierTerritory.class_name}`;
                                 bestTransfers.push(transferMessage);
                             }
@@ -235,54 +236,14 @@ const warPredictionController = {
                     }
                 }
             }
+        }
+
+        if(bestTransfers.length===0){
+            bestTransfers.push("Não há movimentos para fazer.");
         }
 
         return bestTransfers; // Retorna um array com as mensagens das melhores transferências
     },
-    findBestTransfersToReinforce(data, colorTeam) {
-        const bestTransfers = [];
-        let maxTroopDifference = 0;
-
-        for (const territory of data) {
-            if (territory.color_name === colorTeam) {
-                // Verifique as fronteiras deste território
-                const fronteiras = frontiersConstants.countriesFrontiers.find(
-                    (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
-                );
-
-                if (fronteiras && fronteiras.frontiers.length > 0) {
-                    for (const frontierName of fronteiras.frontiers) {
-                        // Encontre o território de fronteira correspondente
-                        const frontierTerritory = data.find(
-                            (t) => t.class_name.toLowerCase() === frontierName.toLowerCase()
-                        );
-
-                        if (
-                            frontierTerritory &&
-                            frontierTerritory.color_name === colorTeam
-                        ) {
-                            // Calcule a diferença entre as tropas nos territórios
-                            const troopDifference = territory.troop - frontierTerritory.troop;
-
-                            // Verifique se a diferença é maior que a máxima registrada até agora
-                            if (troopDifference > maxTroopDifference) {
-                                bestTransfers.length = 0; // Limpe o array se encontrar uma diferença maior
-                                maxTroopDifference = troopDifference;
-                            }
-
-                            // Se a diferença for igual à máxima registrada, adicione ao array
-                            if (troopDifference === maxTroopDifference) {
-                                const transferMessage = `Mova ${troopDifference} tropas do ${territory.class_name} para o ${frontierTerritory.class_name}`;
-                                bestTransfers.push(transferMessage);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return bestTransfers;
-    }
 }
 
 module.exports = warPredictionController;

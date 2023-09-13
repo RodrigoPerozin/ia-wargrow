@@ -1,12 +1,7 @@
 function toggleTroopsInput() {
     const actionType = document.getElementById('action-type').value;
     const troopsContainer = document.getElementById('troops-container');
-
-    if (actionType === 'troops') {
-        troopsContainer.style.display = 'block';
-    } else {
-        troopsContainer.style.display = 'none';
-    }
+    troopsContainer.style.display = 'none';
 }
 
 const elementButton = document.getElementById("do-movement");
@@ -52,13 +47,6 @@ async function doMovement() {
                 objResult = await responseNode.json();
             } else if (movementType === 'move-troops') {
                 const responseNode = await fetch(`http://127.0.0.1:3000/move-troop?color=${color}`, {
-                    method: 'POST',
-                    body: jsonData,
-                    headers: headers
-                });
-                objResult = await responseNode.json();
-            } else if (movementType === 'troops' && troops) {
-                const responseNode = await fetch(`http://127.0.0.1:3000/movement?color=${color}&troops=${troops}`, {
                     method: 'POST',
                     body: jsonData,
                     headers: headers

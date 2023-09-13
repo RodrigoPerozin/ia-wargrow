@@ -5,7 +5,7 @@ def apply_adjustments(class_name, x, y):
         "Mexico": (-9, 7),
         "Venezuela": (0, 3),
         "Suecia": (-7, 0),
-        "Polinia": (5, -6),
+        "Polonia": (5, -6),
         "Egito": (7, 0),
         "Islandia": (7, 0),
         "Inglaterra": (7, 0),
