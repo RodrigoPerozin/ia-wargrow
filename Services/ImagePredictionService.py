@@ -16,6 +16,7 @@ from Util.apply_class_adjustments import apply_class_adjustments
 from Util.extract_troop_info import extract_troop_info
 from Util.get_color import get_color
 from Util.json_to_class_predictions import json_to_class_predictions
+from Util.points_adjustments import points
 from Model.Prediction import Prediction
 from Model.RoboflowPredictor import RoboflowPredictor
 
@@ -113,18 +114,50 @@ async def get_colors_image(image: UploadFile = File(...)):
     
     for pred in predictions:
         x, y = apply_adjustments(pred.class_name, pred.x, pred.y)
-        pixel_color = pil_image.getpixel((x, y)) 
-        
-        closest_color = get_color(pixel_color)
 
-        result.append({"class_name": pred.class_name, "color_name": closest_color})
+        pred_colors = []
+        points_apply = points(x, y)
+        for x_temp, y_temp in points_apply:
+            pixel_color = pil_image.getpixel((x_temp, y_temp))
+            closest_color = get_color(pixel_color)
+            draw.point((x_temp, y_temp), fill=(255, 255, 255))
+            pred_colors.append(closest_color)
             
+            # if (x_temp, y_temp) == (x, y):
+            #     print('Cor Central: ' + closest_color)
+            # elif (x_temp, y_temp) == (x + 6, y + 6):
+            #     print('Cor Baixo Direita: ' + closest_color)
+            # elif (x_temp, y_temp) == (x - 6, y - 6):
+            #     print('Cor Cima Esquerda: ' + closest_color)
+            # elif (x_temp, y_temp) == (x - 6, y):
+            #     print('Cor Central Esquerda: ' + closest_color)
+            # elif (x_temp, y_temp) == (x, y + 6):
+            #     print('Cor Baixo Central: ' + closest_color)
+            # elif (x_temp, y_temp) == (x, y - 6):
+            #     print('Cor Cima Central: ' + closest_color)
+            # elif (x_temp, y_temp) == (x + 6, y):
+            #     print('Cor Central Direita: ' + closest_color)
+            # elif (x_temp, y_temp) == (x - 6, y + 6):
+            #     print('Cor Baixo Esquerda: ' + closest_color)
+            # elif (x_temp, y_temp) == (x + 6, y - 6):
+            #     print('Cor Cima Direita: ' + closest_color)
+
             
-        radius = 20
-        ellipse_coords = (x - radius, y - radius, x + radius, y + radius)
-            
-        draw.ellipse(ellipse_coords, outline=(255, 255, 255))
-            
+        color_counts = {}
+
+        for color in pred_colors:
+            if color in color_counts:
+                color_counts[color] += 1
+            else:
+                color_counts[color] = 1
+
+        # Encontre a cor com a maior contagem
+        color_comun = max(color_counts, key=color_counts.get)
+
+
+        result.append({"class_name": pred.class_name, "color_name": color_comun})
+        
+        
     marked_image_path = os.path.join(temp_folder, "marked_image.png")
     marked_image.save(marked_image_path)
         
@@ -214,9 +247,24 @@ async def predict_troop_and_color(image: UploadFile = File(...)):
     
     for pred in predictions:
         x, y = apply_adjustments(pred.class_name, pred.x, pred.y)
-        pixel_color = pil_image.getpixel((x, y)) 
+        pred_colors = []
+        points_apply = points(x, y)
+        for x_temp, y_temp in points_apply:
+            pixel_color = pil_image.getpixel((x_temp, y_temp))
+            closest_color = get_color(pixel_color)
+            pred_colors.append(closest_color)
+            
+        color_counts = {}
+
+        for color in pred_colors:
+            if color in color_counts:
+                color_counts[color] += 1
+            else:
+                color_counts[color] = 1
+
+        # Encontre a cor com a maior contagem
+        color_comun = max(color_counts, key=color_counts.get)
         
-        closest_color = get_color(pixel_color)
         radius = 20
         
         x_radius = x - radius
@@ -242,7 +290,7 @@ async def predict_troop_and_color(image: UploadFile = File(...)):
         
         result.append({
             "class_name": pred.class_name,
-            "color_name": closest_color,
+            "color_name": color_comun,
             "troop": troop
         })
         
