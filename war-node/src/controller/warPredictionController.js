@@ -4,6 +4,15 @@ const frontiersConstants = require('../constants/frontiersConstants')
 const objConstants = require('../constants/objConstants')
 const continentConstants = require('../constants/continentConstants')
 
+class Transfer {
+    constructor(territory_i, territory_f, troops) {
+      this.territory_i = territory_i;
+      this.territory_f = territory_f;
+      this.troops = troops;
+    }
+  }
+  
+
 const warPredictionController = {
 
     handleCountries(unhandledCountries, quantityTroops) {
@@ -197,46 +206,77 @@ const warPredictionController = {
     findBestTransfersToReinforce(data, colorTeam) {
         const bestTransfers = []; // Inicialize um array vazio para armazenar as melhores transferências
         let maxTroopDifference = 0;
+        const performedTransfers = []
+        var countTransfersLen = 0;
 
-        // Iterar sobre os territórios para encontrar as melhores transferências
-        for (const territory of data) {
-            if (territory.color_name === colorTeam) {
-                // Verifique as fronteiras deste território usando frontiersConstants
-                const fronteiras = frontiersConstants.countriesFrontiers.find(
-                    (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
-                );
+        do {
+            countTransfersLen = 0;
+            // Iterar sobre os territórios para encontrar as melhores transferências
+            for (const territory of data) {
+                if (territory.color_name === colorTeam) {
+                    // Verifique as fronteiras deste território usando frontiersConstants
+                    const fronteiras = frontiersConstants.countriesFrontiers.find(
+                        (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
+                    );
 
-                if (fronteiras && fronteiras.frontiers.length > 0) {
-                    for (const frontierName of fronteiras.frontiers) {
-                        // Encontre o território de fronteira correspondente
-                        const frontierTerritory = data.find(
-                            (t) => t.class_name.toLowerCase() === frontierName.toLowerCase()
-                        );
+                    if (fronteiras && fronteiras.frontiers.length > 0) {
+                        for (const frontierName of fronteiras.frontiers) {
+                            // Encontre o território de fronteira correspondente
+                            const frontierTerritory = data.find(
+                                (t) => t.class_name.toLowerCase() === frontierName.toLowerCase()
+                            );
 
-                        if (
-                            frontierTerritory &&
-                            frontierTerritory.color_name.toLowerCase() === colorTeam.toLowerCase()
-                        ) {
-                            // Calcule a diferença entre as tropas nos territórios
-                            const troopDifference = territory.troop - frontierTerritory.troop;
+                            if (
+                                frontierTerritory &&
+                                frontierTerritory.color_name.toLowerCase() === colorTeam.toLowerCase()
+                            ) {
+                                // Calcule a diferença entre as tropas nos territórios
+                                const troopDifference = territory.troop - frontierTerritory.troop;
 
-                            // Verifique se a diferença é maior que a máxima registrada até agora
-                            if (troopDifference > maxTroopDifference) {
-                                bestTransfers.length = 0; // Limpe o array se encontrar uma diferença maior
-                                maxTroopDifference = troopDifference;
-                            }
+                                // Verifique se a diferença é maior que a máxima registrada até agora
+                                if (troopDifference > maxTroopDifference) {
+                                    bestTransfers.length = 0; // Limpe o array se encontrar uma diferença maior
+                                    maxTroopDifference = troopDifference;
+                                }
 
-                            // Se a diferença for igual à máxima registrada, adicione ao array
-                            //verifica se a diferença de tropas é maior que 0, para ser possível fazer o ataque
-                            if (troopDifference === maxTroopDifference && troopDifference > 0) {
-                                const transferMessage = `Mova ${troopDifference} tropas do ${territory.class_name} para o ${frontierTerritory.class_name}`;
-                                bestTransfers.push(transferMessage);
+                                // Se a diferença for igual à máxima registrada, adicione ao array
+                                //verifica se a diferença de tropas é maior que 0, para ser possível fazer o ataque
+                                if (troopDifference === maxTroopDifference && troopDifference > 0) {
+                                    
+                                    
+                                    var invalidPLay = false;
+                                    
+                                    for(const transfer of performedTransfers){
+                                        if(transfer.territory_i === territory.class_name && transfer.territory_f === frontierTerritory.class_name){
+                                            invalidPLay = true;
+                                        }else if(transfer.territory_f === territory.class_name && transfer.territory_i === frontierTerritory.class_name){
+                                            invalidPLay = true;
+                                        }
+                                    }
+                                    
+                                    if(invalidPLay){
+                                        continue
+                                    }
+                                    
+                                    //criando registro da transferência - para não ter como por acaso ser feito o proximo movimento o inverso deste. 
+                                    performedTransfers.push(new Transfer(territory.class_name, frontierTerritory.class_name, troopDifference))
+                                    //atualiza o numero de tropas do continente que transferiu
+                                    data[data.indexOf(territory)].troop = data[data.indexOf(territory)].troop - troopDifference;      
+                                    //atualizando o numero de tropas do continente que recebeu                           
+                                    data[data.indexOf(frontierTerritory)].troop = (parseInt(data[data.indexOf(frontierTerritory)].troop) + troopDifference).toString();
+                                    
+                                    const transferMessage = `Mova ${troopDifference} tropas do ${territory.class_name} para o ${frontierTerritory.class_name}`;
+                                    bestTransfers.push(transferMessage);
+
+                                    countTransfersLen = performedTransfers.length;
+
+                                }
                             }
                         }
                     }
                 }
             }
-        }
+        } while(countTransfersLen>0);
 
         if(bestTransfers.length===0){
             bestTransfers.push("Não há movimentos para fazer.");
