@@ -7,8 +7,8 @@ def apply_class_adjustments(class_name, x, y, x_radius, y_radius):
             
         elif class_name == "Peru":
             x = x + 20
-            y = y - 30
-            y_radius = y_radius - 50
+            y = y + 30
+            y_radius = y_radius - 20
             x_radius = x_radius + 20
             
         elif class_name == "Venezuela":

@@ -20,12 +20,12 @@ app.post("/attack", (req, res) => {
         return res.status(400).json({ message: "Dados de ataque inválidos." });
     }
 
-    const bestMove = attackController.doAttack(data, colorTeam);
+    const bestMove = attackController.doAttack(data, colorTeam, objId);
     const objResult = {};
     let msg = "";
 
     if (bestMove) {
-        msg += `${bestMove.attacker} ataca ${bestMove.defender}`;
+        msg += `${bestMove.attacker.name} ataca ${bestMove.defender.name}`;
     } else {
         msg = "Não ataque!"
     }

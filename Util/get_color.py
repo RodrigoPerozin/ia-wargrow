@@ -10,10 +10,14 @@ def get_color(pixel_color):
         
     for color_name, color_hex in color_mapping().items():
         color_rgb = hex_to_rgb(color_hex)
-        distance = sum((a - b) ** 2 for a, b in zip(rgb_color, color_rgb))
-                
-        if distance < min_distance:
-            min_distance = distance
-            closest_color = color_name
+        
+        # Verifique se a cor não é preta nem branca (RGB = 0,0,0 para preto e 255,255,255 para branco)
+        if color_rgb != (0, 0, 0) and color_rgb != (255, 255, 255):
+            distance = sum((a - b) ** 2 for a, b in zip(rgb_color, color_rgb))
+            
+            if distance < min_distance:
+                min_distance = distance
+                closest_color = color_name
+            
                 
     return closest_color

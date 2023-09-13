@@ -14,5 +14,4 @@ def json_to_class_predictions(data):
             prediction_type=prediction_data["prediction_type"]
         )
         predictions.append(prediction)
-    print(predictions)
     return predictions
