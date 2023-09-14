@@ -218,10 +218,24 @@ async def get_data_test():
 
 
 async def get_image():
-    file_path = 'Util/fullmap/fullmap.png'
+    file_path = 'Util/fullmap/fullmap_original.png'
     
-    with open(file_path, 'rb') as file:
+    img = Image.open(file_path)
+    
+    # Recorte a imagem (CUIDAR COM A RESOLUÇAÕ DA TUA TELA)
+    img = img.crop((283, 71, 283 + 1358, 71 + 758))
+    
+    # Redimensione a imagem para W: 1582px e H: 888px
+    nova_resolucao = (1582, 888)
+    img = img.resize(nova_resolucao, Image.ANTIALIAS)
+    
+    # Salve a imagem recortada e redimensionada
+    file_image = 'Util/fullmap/fullmap.png'
+    img.save(file_image)
+    
+    with open(file_image, 'rb') as file:
         content = file.read()
+    
     return content
 
         
