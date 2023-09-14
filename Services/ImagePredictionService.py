@@ -225,7 +225,7 @@ async def get_image():
     return content
 
         
-async def predict_troop_and_color():
+async def predict_troop_and_color(roboflow_instance):
     content = await get_image()
     #content = await image.read()
     temp_folder = get_folder_temp()
@@ -233,7 +233,7 @@ async def predict_troop_and_color():
     
     image_path = save_temp_image(pil_image)
 
-    roboflow_instance = RoboflowPredictor()  
+    #roboflow_instance = RoboflowPredictor()  
     data = await roboflow_instance.predict_json(image_path)
     
     predictions = []
