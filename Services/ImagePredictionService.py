@@ -214,10 +214,20 @@ async def get_data_test():
             conteudo = json.load(json_file)
         return conteudo
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))        
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+async def get_image():
+    file_path = 'Util/fullmap/fullmap.png'
+    
+    with open(file_path, 'rb') as file:
+        content = file.read()
+    return content
+
         
-async def predict_troop_and_color(image: UploadFile = File(...)):
-    content = await image.read()
+async def predict_troop_and_color():
+    content = await get_image()
+    #content = await image.read()
     temp_folder = get_folder_temp()
     pil_image = Image.open(io.BytesIO(content))
     

@@ -62,9 +62,9 @@ async def predict_value(image: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
     
 @app.post("/predict-complete/")
-async def predict_complete(image: UploadFile = File(...)):
+async def predict_complete():
     try:
-        return await predict_troop_and_color(image)
+        return await predict_troop_and_color()
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
