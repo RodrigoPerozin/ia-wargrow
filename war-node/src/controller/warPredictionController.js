@@ -6,12 +6,12 @@ const continentConstants = require('../constants/continentConstants')
 
 class Transfer {
     constructor(territory_i, territory_f, troops) {
-      this.territory_i = territory_i;
-      this.territory_f = territory_f;
-      this.troops = troops;
+        this.territory_i = territory_i;
+        this.territory_f = territory_f;
+        this.troops = troops;
     }
-  }
-  
+}
+
 
 const warPredictionController = {
 
@@ -119,7 +119,7 @@ const warPredictionController = {
         return groupByColor;
 
     },
-    
+
     alreadyMoved(movements, country) {
         return movements.filter(movement => movement.country === country).length;
     },
@@ -157,6 +157,7 @@ const warPredictionController = {
             const attackerWinProbability = attackerWins / attackerTroopsSimulation;
             return attackerWinProbability;
         }
+
         let bestMoves = [];
         let highestProbability = 0;
         for (const territory of data) {
@@ -204,86 +205,41 @@ const warPredictionController = {
         return bestMoves;
     },
     findBestTransfersToReinforce(data, colorTeam) {
-        const bestTransfers = []; // Inicialize um array vazio para armazenar as melhores transferências
-        let maxTroopDifference = 0;
-        const performedTransfers = []
-        var countTransfersLen = 0;
 
-        do {
-            countTransfersLen = 0;
-            // Iterar sobre os territórios para encontrar as melhores transferências
-            for (const territory of data) {
-                if (territory.color_name === colorTeam) {
-                    // Verifique as fronteiras deste território usando frontiersConstants
-                    const fronteiras = frontiersConstants.countriesFrontiers.find(
-                        (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
-                    );
+        const movements = [];
 
-                    if (fronteiras && fronteiras.frontiers.length > 0) {
-                        for (const frontierName of fronteiras.frontiers) {
-                            // Encontre o território de fronteira correspondente
-                            const frontierTerritory = data.find(
-                                (t) => t.class_name.toLowerCase() === frontierName.toLowerCase()
-                            );
+        // Iterar sobre os territórios para encontrar as melhores transferências
+        for (const territory of data) {
 
-                            if (
-                                frontierTerritory &&
-                                frontierTerritory.color_name.toLowerCase() === colorTeam.toLowerCase()
-                            ) {
-                                // Calcule a diferença entre as tropas nos territórios
-                                const troopDifference = territory.troop - frontierTerritory.troop;
+            if (territory.color_name === colorTeam) {
 
-                                // Verifique se a diferença é maior que a máxima registrada até agora
-                                if (troopDifference > maxTroopDifference) {
-                                    //bestTransfers.length = 0; // Limpe o array se encontrar uma diferença maior
-                                    maxTroopDifference = troopDifference;
-                                }
+                // Verifique as fronteiras deste território usando frontiersConstants
+                const frontiers = frontiersConstants.countriesFrontiers.find(
+                    (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
+                ).map(frontierObj => frontierObj.frontiers);
 
-                                // Se a diferença for igual à máxima registrada, adicione ao array
-                                //verifica se a diferença de tropas é maior que 0, para ser possível fazer o ataque
-                                if (troopDifference === maxTroopDifference && troopDifference > 0) {
-                                    
-                                    
-                                    var invalidPLay = false;
-                                    
-                                    for(const transfer of performedTransfers){
-                                        if(transfer.territory_i === territory.class_name && transfer.territory_f === frontierTerritory.class_name){
-                                            invalidPLay = true;
-                                        }else if(transfer.territory_f === territory.class_name && transfer.territory_i === frontierTerritory.class_name){
-                                            invalidPLay = true;
-                                        }
-                                    }
-                                    
-                                    if(invalidPLay){
-                                        continue
-                                    }
-                                    
-                                    //criando registro da transferência - para não ter como por acaso ser feito o proximo movimento o inverso deste. 
-                                    performedTransfers.push(new Transfer(territory.class_name, frontierTerritory.class_name, troopDifference))
-                                    //atualiza o numero de tropas do continente que transferiu
-                                    data[data.indexOf(territory)].troop = data[data.indexOf(territory)].troop - troopDifference;      
-                                    //atualizando o numero de tropas do continente que recebeu                           
-                                    data[data.indexOf(frontierTerritory)].troop = (parseInt(data[data.indexOf(frontierTerritory)].troop) + troopDifference).toString();
-                                    
-                                    const transferMessage = `Mova ${troopDifference} tropas do ${territory.class_name} para o ${frontierTerritory.class_name}`;
-                                    bestTransfers.push(transferMessage);
+                // transforma a lista de nome de paises, na lista de objetos paises, buscando no data, depois filtra apenas pelos paises que são de times inimigos.
+                const countriesFrontiers = frontiers.map(frontierName => data.find(country => country.name.toUpperCase() === frontierName)[0]);
 
-                                    countTransfersLen = performedTransfers.length;
+                const enemiesFrontiers = countriesFrontiers.find(country => country.color_team.toUpperCase() !== colorTeam.toUpperCase());
 
-                                }
-                            }
-                        }
-                    }
+                if (enemiesFrontiers && enemiesFrontiers.length) {
+                    continue;
+                } else {
+
+                    movements.push('Mova todas as tropas do pais ' + territory.color_name + ' para o país ' + countriesFrontiers[0])
+
                 }
-            }
-        } while(countTransfersLen>0);
 
-        if(bestTransfers.length===0){
-            bestTransfers.push("Não há movimentos para fazer.");
+
+            }
+
         }
 
-        return bestTransfers; // Retorna um array com as mensagens das melhores transferências
+        return movements && movements.length >= 1 ? movements : ['Não fazer movimentações!']; // Retorna um array com as mensagens das melhores transferências
+
     },
+
 }
 
 module.exports = warPredictionController;
