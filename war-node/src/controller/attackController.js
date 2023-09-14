@@ -39,7 +39,7 @@ function getBestMoveByTerritory(bestMovesList) {
 
 function getBestMoveByColor(bestMovesList, teamColor, obj) {
     if (teamColor === obj.enemyColor) return bestMovesList[0];
-    let newList = bestMovesList.filter((element) => element.defender.color_name === obj.enemyColor);
+    let newList = bestMovesList.filter((element) => element.defender.color.toUpperCase() === obj.enemyColor.toUpperCase());
     if (newList.length <= 1) return bestMovesList[0];
     return getBestMoveByTerritory(newList);
 }
