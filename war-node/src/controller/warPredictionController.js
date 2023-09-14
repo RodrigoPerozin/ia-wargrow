@@ -235,7 +235,7 @@ const warPredictionController = {
 
                                 // Verifique se a diferença é maior que a máxima registrada até agora
                                 if (troopDifference > maxTroopDifference) {
-                                    bestTransfers.length = 0; // Limpe o array se encontrar uma diferença maior
+                                    //bestTransfers.length = 0; // Limpe o array se encontrar uma diferença maior
                                     maxTroopDifference = troopDifference;
                                 }
 
