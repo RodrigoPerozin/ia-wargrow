@@ -1,7 +1,11 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from Model.RoboflowPredictor import RoboflowPredictor
 from Services.ImagePredictionService import predict_troop_and_color, predict_json, predict_countries_map, predict_view_result, get_colors_image, predict_value_total, get_data_test
+
+
 app = FastAPI()
+roboflow_instance = RoboflowPredictor() 
 
 origins = [
     "*"  # Outra variação do endereço do frontend
@@ -62,9 +66,9 @@ async def predict_value(image: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
     
 @app.post("/predict-complete/")
-async def predict_complete(image: UploadFile = File(...)):
+async def predict_complete():
     try:
-        return await predict_troop_and_color(image)
+        return await predict_troop_and_color(roboflow_instance)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

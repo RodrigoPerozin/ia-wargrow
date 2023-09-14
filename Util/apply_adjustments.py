@@ -1,6 +1,6 @@
 def apply_adjustments(class_name, x, y):
     adjustments = {
-        "Peru": (-7, -45),
+        "Peru": (-7, -60),
         "Argentina": (-10, 0),
         "Mexico": (-9, 7),
         "Venezuela": (0, 3),

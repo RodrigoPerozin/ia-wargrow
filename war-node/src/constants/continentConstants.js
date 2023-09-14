@@ -1,30 +1,29 @@
-const continentConstants = {
-    continentConstants: [
-        {
-            continent: 'America do Sul',
-            frontiers: ["argentina", "peru", "venezuela", "brasil"]
-        },
-        {
-            continent: 'America do Norte',
-            frontiers: ["mexico", "nova york", "california", "ottawa", "labrador", "vancouver", "mackenzie", "alaska", "groenlandia"]
-        },
-        {
-            continent: 'Europa',
-            frontiers: ["islandia", "suecia", "inglaterra", "franca", "alemanha", "polonia", "moscou"]
-        },
-        {
-            continent: 'Africa',
-            frontiers: ["africa do sul", "congo", "madagascar", "sudao", "argelia", "egito"]
-        },
-        {
-            continent: 'Ocenia',
-            frontiers: ["sumatra", "borneo", "nova guine", "australia"]
-        },
-        {
-            continent: 'Asia',
-            frontiers: ["oriente medio", "aral", "india", "vietna", "japao", "china", "mongolia", "tchita", "siberia", "dudinka", "vladvostok", "omsk"]
-        }
-    ]
-}
+const continentConstants = [
+    {
+        name: 'America do Sul',
+        countries: ["argentina", "peru", "venezuela", "brasil"]
+    },
+    {
+        name: 'America do Norte',
+        countries: ["mexico", "nova york", "california", "ottawa", "labrador", "vancouver", "mackenzie", "alaska", "groenlandia"]
+    },
+    {
+        name: 'Europa',
+        countries: ["islandia", "suecia", "inglaterra", "franca", "alemanha", "polonia", "moscou"]
+    },
+    {
+        name: 'Africa',
+        countries: ["africa do sul", "congo", "madagascar", "sudao", "argelia", "egito"]
+    },
+    {
+        name: 'Ocenia',
+        countries: ["sumatra", "borneo", "nova guine", "australia"]
+    },
+    {
+        name: 'Asia',
+        countries: ["oriente medio", "aral", "india", "vietna", "japao", "china", "mongolia", "tchita", "siberia", "dudinka", "vladvostok", "omsk"]
+    }
+]
+
 
 module.exports = continentConstants;

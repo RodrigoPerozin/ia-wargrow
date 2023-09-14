@@ -17,7 +17,7 @@ function getDrawList(sortedList) {
 }
 
 function getBestMoveByObjective(sortedList, teamColor, objId) {
-    const obj = objConstants.find((obj) => obj.id === objId);
+    const obj = objConstants.find((obj) => obj.id == objId);
     if (!obj) return sortedList[sortedList.length - 1];
     if (obj.type === "REGION") return getBestMoveByRegion(sortedList, obj);
     if (obj.type === "TERRITORY") return getBestMoveByTerritory(sortedList, obj);
@@ -26,7 +26,7 @@ function getBestMoveByObjective(sortedList, teamColor, objId) {
 }
 
 function getBestMoveByRegion(bestMovesList, obj){
-    let newList = bestMovesList.filter((element) => obj.regions.includes(element.defender));
+    let newList = bestMovesList.filter((element) => obj.regions.includes(element.defender.continent.toUpperCase()));
     if(newList.length<=1) return bestMovesList[0];
     return getBestMoveByTerritory(newList);
 }
@@ -39,7 +39,7 @@ function getBestMoveByTerritory(bestMovesList) {
 
 function getBestMoveByColor(bestMovesList, teamColor, obj) {
     if (teamColor === obj.enemyColor) return bestMovesList[0];
-    let newList = bestMovesList.filter((element) => element.defender.color_name === obj.enemyColor);
+    let newList = bestMovesList.filter((element) => element.defender.color.toUpperCase() === obj.enemyColor.toUpperCase());
     if (newList.length <= 1) return bestMovesList[0];
     return getBestMoveByTerritory(newList);
 }
@@ -114,7 +114,7 @@ const attackController = {
 
         if(bestMovesList.length<=1) return sortedList[sortedList.length - 1];
 
-        return getBestMoveByObjective(bestMovesList, objId);
+        return getBestMoveByObjective(bestMovesList, colorTeam, objId);
 
     },
 };

@@ -13,7 +13,7 @@ async function doMovement() {
     const movementType = document.getElementById('action-type').value;
     const troops = document.getElementById('troops').value;
     const resultElement = document.getElementById('result-play');
-    const file = document.getElementById('file-receiver').files[0];
+    //const file = document.getElementById('file-receiver').files[0];
     const loading = document.getElementById('loading'); // Elemento de loading
     const button = document.getElementById('do-movement'); // Elemento do botão
     const objId = document.getElementById('obj-id').value;  
@@ -21,14 +21,16 @@ async function doMovement() {
 
     loading.style.display = 'block';
 
-    if (file && color) {
+
+
+    if (color) {
         try {
             const formData = new FormData();
-            formData.append('image', file);
+            //formData.append('image', file);
 
             const response = await fetch('http://127.0.0.1:8000/predict-complete', {
                 method: 'POST',
-                body: formData,
+                //body: formData,
             });
 
             const headers = {
