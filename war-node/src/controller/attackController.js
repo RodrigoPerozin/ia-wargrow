@@ -17,7 +17,7 @@ function getDrawList(sortedList) {
 }
 
 function getBestMoveByObjective(sortedList, teamColor, objId) {
-    const obj = objConstants.find((obj) => obj.id === objId);
+    const obj = objConstants.find((obj) => obj.id == objId);
     if (!obj) return sortedList[sortedList.length - 1];
     if (obj.type === "REGION") return getBestMoveByRegion(sortedList, obj);
     if (obj.type === "TERRITORY") return getBestMoveByTerritory(sortedList, obj);
