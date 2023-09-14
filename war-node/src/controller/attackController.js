@@ -114,7 +114,7 @@ const attackController = {
 
         if(bestMovesList.length<=1) return sortedList[sortedList.length - 1];
 
-        return getBestMoveByObjective(bestMovesList, objId);
+        return getBestMoveByObjective(bestMovesList, colorTeam, objId);
 
     },
 };
