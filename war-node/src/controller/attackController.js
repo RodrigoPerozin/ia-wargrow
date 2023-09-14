@@ -26,7 +26,7 @@ function getBestMoveByObjective(sortedList, teamColor, objId) {
 }
 
 function getBestMoveByRegion(bestMovesList, obj){
-    let newList = bestMovesList.filter((element) => obj.regions.includes(element.defender));
+    let newList = bestMovesList.filter((element) => obj.regions.includes(element.defender.continent.toUpperCase()));
     if(newList.length<=1) return bestMovesList[0];
     return getBestMoveByTerritory(newList);
 }
