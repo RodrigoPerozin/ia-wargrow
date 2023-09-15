@@ -45,20 +45,8 @@ app.post("/move-troop", (req, res) => {
             .json({ message: "Dados de movimentação de tropas inválidos." });
     }
 
-    const handledCountries =
-        warPredictionController.findBestTransfersToReinforce(data, colorTeam);
+    const moveTroopMessages = warPredictionController.findBestTransfersToReinforce(data, colorTeam);
 
-    moveTroopArray = [];
-    
-    handledCountries.forEach((country) => {
-        if (!moveTroopArray.includes(country)) {
-            moveTroopArray.push(country);
-        }
-    });
-
-    const moveTroopMessages = moveTroopArray.map((country) => {
-        return country;
-    });
     const responseObj = {
         message: moveTroopMessages.join("\n"),
     };

@@ -208,29 +208,35 @@ const warPredictionController = {
 
         const movements = [];
 
-        // Iterar sobre os territórios para encontrar as melhores transferências
         for (const territory of data) {
 
-            if (territory.color_name === colorTeam) {
+            if (territory.color_name === colorTeam && territory.troop > 1) {
 
-                // Verifique as fronteiras deste território usando frontiersConstants
-                const frontiers = frontiersConstants.countriesFrontiers.find(
+                const frontiers = frontiersConstants.countriesFrontiers.filter(
                     (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
-                ).map(frontierObj => frontierObj.frontiers);
+                ).map(frontierObj => frontierObj.frontiers)[0];
 
-                // transforma a lista de nome de paises, na lista de objetos paises, buscando no data, depois filtra apenas pelos paises que são de times inimigos.
-                const countriesFrontiers = frontiers.map(frontierName => data.find(country => country.name.toUpperCase() === frontierName)[0]);
+                if (frontiers && frontiers.length) {
 
-                const enemiesFrontiers = countriesFrontiers.find(country => country.color_team.toUpperCase() !== colorTeam.toUpperCase());
+                    const countriesFrontiers = frontiers.map(frontierName => data.find(country => country.class_name.toUpperCase() === frontierName.toUpperCase()));
+                    const enemiesFrontiers = countriesFrontiers.filter(country => country.color_name && country.color_name.toUpperCase() !== colorTeam.toUpperCase());
 
-                if (enemiesFrontiers && enemiesFrontiers.length) {
-                    continue;
-                } else {
+                    if (enemiesFrontiers && enemiesFrontiers.length) {
+                        continue;
+                    } else {
 
-                    movements.push('Mova todas as tropas do pais ' + territory.color_name + ' para o país ' + countriesFrontiers[0])
+                        const selectedCountry = this.getBestMovementByFriendlyFrontiersCountry(countriesFrontiers, data, colorTeam);
+
+                        if (selectedCountry) {
+                            movements.push('Mova todas as tropas do pais ' + territory.class_name + ' para o país ' + selectedCountry.class_name)
+                        } else {
+                            movements.push('Mova todas as tropas do pais ' + territory.class_name + ' para o país ' + countriesFrontiers[0])
+                        }
+
+
+                    }
 
                 }
-
 
             }
 
@@ -239,6 +245,30 @@ const warPredictionController = {
         return movements && movements.length >= 1 ? movements : ['Não fazer movimentações!']; // Retorna um array com as mensagens das melhores transferências
 
     },
+    getBestMovementByFriendlyFrontiersCountry(friendlyCountriesFrontiers, allCountries) {
+
+        for (const territory of friendlyCountriesFrontiers) {
+
+
+            const frontiers = frontiersConstants.countriesFrontiers.filter(
+                (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
+            ).map(frontierObj => frontierObj.frontiers)[0];
+
+            if (frontiers && frontiers.length) {
+
+                let colorTeam = territory.color_name;
+                const countriesFrontiers = frontiers.map(frontierName => allCountries.find(country => country.class_name.toUpperCase() === frontierName.toUpperCase()));
+                const enemiesFrontiers = countriesFrontiers.filter(country => country.color_name && country.color_name.toUpperCase() !== colorTeam.toUpperCase());
+
+                if (enemiesFrontiers && enemiesFrontiers.length) {
+                    return territory;
+                }
+
+            }
+
+        }
+
+    }
 
 }
 
