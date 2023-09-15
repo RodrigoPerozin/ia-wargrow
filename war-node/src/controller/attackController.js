@@ -62,9 +62,10 @@ const attackController = {
         let possibleMoves = [];
 
         for (const territory of data) {
+
             const attackerTroops = parseInt(territory.troop);
 
-            if (attackerTroops < 2) continue;
+            if (!territory.troop.length || attackerTroops < 2) continue;
 
             if (territory.color_name !== colorTeam) continue;
 

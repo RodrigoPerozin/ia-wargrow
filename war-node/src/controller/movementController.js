@@ -13,7 +13,7 @@ class Transfer {
 }
 
 
-const warPredictionController = {
+const movementController = {
 
     handleCountries(unhandledCountries, quantityTroops) {
 
@@ -123,87 +123,6 @@ const warPredictionController = {
     alreadyMoved(movements, country) {
         return movements.filter(movement => movement.country === country).length;
     },
-
-    doAttack(data, colorTeam) {
-        function calculateWinProbability(attackerTroops, defenderTroops) {
-            // Mínimo de 1 e máximo de 3 tropas para o atacante
-            const attackerTroopsSimulation = Math.min(attackerTroops, 3);
-            // Mínimo de 1 e máximo de 2 tropas para o defensor
-            const defenderTroopsSimulation = Math.min(defenderTroops, 2);
-            const attackerResults = [];
-            const defenderResults = [];
-            // Simule rolagens de dados para o atacante
-            for (let i = 0; i < attackerTroopsSimulation; i++) {
-                attackerResults.push(Math.floor(Math.random() * 6) + 1); // Dado de 6 lados
-            }
-            // Simule rolagens de dados para o defensor
-            for (let i = 0; i < defenderTroopsSimulation; i++) {
-                defenderResults.push(Math.floor(Math.random() * 6) + 1); // Dado de 6 lados
-            }
-            // Ordene os resultados em ordem decrescente
-            attackerResults.sort((a, b) => b - a);
-            defenderResults.sort((a, b) => b - a);
-            // Compare os resultados dos dados e determine o vencedor
-            let attackerWins = 0;
-            let defenderWins = 0;
-            for (let i = 0; i < Math.min(attackerTroopsSimulation, defenderTroopsSimulation); i++) {
-                if (attackerResults[i] > defenderResults[i]) {
-                    attackerWins++;
-                } else {
-                    defenderWins++;
-                }
-            }
-            // Calcule a probabilidade de vitória do atacante
-            const attackerWinProbability = attackerWins / attackerTroopsSimulation;
-            return attackerWinProbability;
-        }
-
-        let bestMoves = [];
-        let highestProbability = 0;
-        for (const territory of data) {
-            const attackerTroops = parseInt(territory.troop);
-            // Verifique se o território pertence ao colorTeam
-            if (territory.color_name === colorTeam) {
-                // Verifique as fronteiras deste território usando frontiersConstants
-                const borders = frontiersConstants.countriesFrontiers.find(
-                    (country) => country.countryName.toLowerCase() === territory.class_name.toLowerCase()
-                );
-                if (borders && borders.frontiers.length > 0) {
-                    for (const destinationTerritoryName of borders.frontiers) {
-                        // Encontre o território de destino correspondente
-                        const destinationTerritory = data.find(
-                            (t) => t.class_name.toLowerCase() === destinationTerritoryName.toLowerCase()
-                        );
-                        if (
-                            destinationTerritory &&
-                            destinationTerritory.color_name !== colorTeam
-                        ) {
-                            const defenderTroops = parseInt(destinationTerritory.troop);
-                            // Calcular a probabilidade de vitória
-                            const winProbability = calculateWinProbability(
-                                attackerTroops,
-                                defenderTroops
-                            );
-                            // Defina um limiar de probabilidade para decidir se você deseja atacar
-                            const probabilityThreshold = 0.5; // Ajuste conforme necessário
-                            // Verifique se esta jogada é uma das melhores
-                            if (winProbability > probabilityThreshold) {
-                                if (winProbability > highestProbability) {
-                                    // Esta é a nova melhor jogada, limpa a lista anterior
-                                    highestProbability = winProbability;
-                                    bestMoves = [`${territory.class_name} ataque a ${destinationTerritory.class_name}`];
-                                } else if (winProbability === highestProbability) {
-                                    // Esta jogada tem a mesma probabilidade que a melhor jogada até agora
-                                    bestMoves.push(`${territory.class_name} ataque a ${destinationTerritory.class_name}`);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return bestMoves;
-    },
     findBestTransfersToReinforce(data, colorTeam) {
 
         const movements = [];
@@ -219,7 +138,7 @@ const warPredictionController = {
                 if (frontiers && frontiers.length) {
 
                     const countriesFrontiers = frontiers.map(frontierName => data.find(country => country.class_name.toUpperCase() === frontierName.toUpperCase()));
-                    const enemiesFrontiers = countriesFrontiers.filter(country => country.color_name && country.color_name.toUpperCase() !== colorTeam.toUpperCase());
+                    const enemiesFrontiers = countriesFrontiers.filter(country => country && country.color_name && country.color_name.toUpperCase() !== colorTeam.toUpperCase());
 
                     if (enemiesFrontiers && enemiesFrontiers.length) {
                         continue;
@@ -228,9 +147,9 @@ const warPredictionController = {
                         const selectedCountry = this.getBestMovementByFriendlyFrontiersCountry(countriesFrontiers, data, colorTeam);
 
                         if (selectedCountry) {
-                            movements.push('Mova todas as tropas do pais ' + territory.class_name + ' para o país ' + selectedCountry.class_name)
+                            movements.push('Mova todas as tropas possíveis do pais ' + territory.class_name + ' para o país ' + selectedCountry.class_name)
                         } else {
-                            movements.push('Mova todas as tropas do pais ' + territory.class_name + ' para o país ' + countriesFrontiers[0])
+                            movements.push('Mova todas as tropas possíveis do pais ' + territory.class_name + ' para o país ' + countriesFrontiers[0].class_name)
                         }
 
 
@@ -272,4 +191,4 @@ const warPredictionController = {
 
 }
 
-module.exports = warPredictionController;
+module.exports = movementController;
