@@ -161,6 +161,10 @@ const frontiersConstants = {
         {
             countryName: "sumatra",
             frontiers: ["australia", "india"]
+        },
+        {
+            countryName: "borneo",
+            frontiers: ["australia", "vietna"]
         }
     ]
 
