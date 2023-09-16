@@ -1,7 +1,7 @@
 const frontiersConstants = {
     countriesFrontiers: [
         {
-            countryName: 'brasil',
+            countryName: "brasil",
             frontiers: ["argentina", "peru", "venezuela", "argelia"]
         },
         {
@@ -17,10 +17,6 @@ const frontiersConstants = {
         {
             countryName: "venezuela",
             frontiers: ["brasil", "peru", "mexico"]
-        },
-        {
-            countryName: "mexico",
-            frontiers: ["venezuela", "nova york", "california"]
         },
         {
             countryName: "mexico",
@@ -52,7 +48,7 @@ const frontiersConstants = {
         },
         {
             countryName: "groenlandia",
-            frontiers: ["mackenzie", "islandia"]
+            frontiers: ["mackenzie", "islandia", "labrador"]
         },
         {
             countryName: "alaska",
@@ -68,7 +64,7 @@ const frontiersConstants = {
         },
         {
             countryName: "franca",
-            frontiers: ["polinia", "alemanha", "inglaterra", "argelia"]
+            frontiers: ["polinia", "alemanha", "inglaterra", "argelia", "egito"]
         },
         {
             countryName: "polinia",
@@ -124,11 +120,11 @@ const frontiersConstants = {
         },
         {
             countryName: "omsk",
-            frontiers: ["mongolia", "dudinka", "moscou", "aral", "china"]
+            frontiers: ["mongolia", "dudinka", "moscou", "aral"]
         },
         {
             countryName: "aral",
-            frontiers: ["omsk", "china", "moscou", "oriente medio", "india"]
+            frontiers: ["omsk", "china", "oriente medio", "india"]
         },
         {
             countryName: "oriente medio",
@@ -164,7 +160,15 @@ const frontiersConstants = {
         },
         {
             countryName: "borneo",
-            frontiers: ["australia", "vietna"]
+            frontiers: ["australia", "vietna", "nova guine"]
+        },
+        {
+            countryName: "australia",
+            frontiers: ["sumatra", "borneo", "nova guine"]
+        },
+        {
+            countryName: "nova guine",
+            frontiers: ["borneo", "australia"]
         }
     ]
 
