@@ -28,7 +28,7 @@ async function doMovement() {
             const formData = new FormData();
             //formData.append('image', file);
 
-            const response = await fetch('http://127.0.0.1:8000/predict-complete', {
+            const response = await fetch('http://127.0.0.1:8000/predict-complete/', {
                 method: 'POST',
                 //body: formData,
             });

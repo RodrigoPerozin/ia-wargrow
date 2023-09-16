@@ -92,7 +92,7 @@ const frontiersConstants = {
         },
         {
             countryName: "sudao",
-            frontiers: ["egito", "argelia", "congo", "madagascar"]
+            frontiers: ["egito", "argelia", "congo", "madagascar", "africa do sul"]
         },
         {
             countryName: "congo",
