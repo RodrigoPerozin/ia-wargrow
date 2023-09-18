@@ -1,12 +1,7 @@
-from typing import Union
-from fastapi import FastAPI
-import uvicorn 
+import uvicorn
+import os
 
-app = FastAPI()
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key.json"
+    
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("Controller.ImagePredictionController:app", host="localhost", port=8000, reload=True)

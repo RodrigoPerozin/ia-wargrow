@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <label for="team-color">Cor do time</label>
+            <select id="team-color" required>
+                <option value="Vermelho">Vermelho</option>
+                <option selected value="Amarelo">Amarelo</option>
+                <option value="Azul">Azul</option>
+                <option value="Roxo">Roxo</option>
+                <option value="Verde">Verde</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="obj-id">Objetivo</label>
+            <select id="obj-id" required>
+                <option selected value="1">Conquistar na totalidade a EUROPA, a OCEANIA e mais um terceiro.</option>
+                <option value="2">Conquistar na totalidade a ÁSIA e a AMÉRICA DO SUL.</option>
+                <option value="3">Conquistar na totalidade a EUROPA, a AMÉRICA DO SUL e mais um terceiro.</option>
+                <option value="4">Conquistar 18 TERRITÓRIOS e ocupar cada um deles com pelo menos dois exércitos.</option>
+                <option value="5">Conquistar na totalidade a ÁSIA e a ÁFRICA.</option>
+                <option value="6">Conquistar na totalidade a AMÉRICA DO NORTE e a ÁFRICA.</option>
+                <option value="7">Conquistar 24 TERRITÓRIOS à sua escolha.</option>
+                <option value="8">Conquistar na totalidade a AMÉRICA DO NORTE e a OCEANIA.</option>
+                <option value="9">Destruir totalmente OS EXÉRCITOS AZUIS.</option>
+                <option value="10">Destruir totalmente OS EXÉRCITOS AMARELOS.</option>
+                <option value="11">Destruir totalmente OS EXÉRCITOS VERMELHOS.</option>
+                <option value="12">Destruir totalmente OS EXÉRCITOS ROXOS.</option>
+                <option value="13">Destruir totalmente OS EXÉRCITOS VERDES.</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="action-type">Ação</label>
+            <select id="action-type" onchange="toggleTroopsInput(this)" required>
+                <option selected value="attack">1 - Ataque</option>
+                <option value="move-troops">2 - Movimentar Tropas</option>
+            </select>
+        </div>
+
+        <div id="troops-container">
+            <label for="troops">Quantidade de tropas</label>
+            <input id="troops" type="number" required />
+        </div>
+
+        <!-- <div>
+            <label for="file-receiver">Arquivo</label>
+            <input id="file-receiver" type="file" required />
+        </div> -->
+
+        <button id="do-movement">Fazer jogada</button>
+        <div class="loading" id="loading"></div>
+        <div id="message-list"></div>
+    </div>
+    <strong id="validations"></strong>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+</body>
+
+</html>

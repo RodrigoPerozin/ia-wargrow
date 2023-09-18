@@ -1,0 +1,202 @@
+[
+  {
+      "class_name": "Moscou",
+      "color_name": "Verde",
+      "troop": "1"
+  },
+  {
+      "class_name": "Argelia",
+      "color_name": "Azul",
+      "troop": "1"
+  },
+  {
+      "class_name": "Omsk",
+      "color_name": "Verde",
+      "troop": "1"
+  },
+  {
+      "class_name": "Alaska",
+      "color_name": "Azul",
+      "troop": "1"
+  },
+  {
+      "class_name": "Peru",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Vladvostok",
+      "color_name": "Vermelho",
+      "troop": "1"
+  },
+  {
+      "class_name": "Dudinka",
+      "color_name": "Roxo",
+      "troop": "5"
+  },
+  {
+      "class_name": "Australia",
+      "color_name": "Verde",
+      "troop": "1"
+  },
+  {
+      "class_name": "Groenlandia",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Sudao",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Vladvostok",
+      "color_name": "Vermelho",
+      "troop": "1"
+  },
+  {
+      "class_name": "Alaska",
+      "color_name": "Azul",
+      "troop": "1"
+  },
+  {
+      "class_name": "China",
+      "color_name": "Azul",
+      "troop": "1"
+  },
+  {
+      "class_name": "Brasil",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "California",
+      "color_name": "Verde",
+      "troop": "1"
+  },
+  {
+      "class_name": "Mackenzie",
+      "color_name": "Vermelho",
+      "troop": "1"
+  },
+  {
+      "class_name": "india",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Aral",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Africa do Sul",
+      "color_name": "Vermelho",
+      "troop": "1"
+  },
+  {
+      "class_name": "Ottawa",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Polonia",
+      "color_name": "Azul",
+      "troop": "1"
+  },
+  {
+      "class_name": "Vietna",
+      "color_name": "Verde",
+      "troop": "1"
+  },
+  {
+      "class_name": "Congo",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Nova York",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Mongolia",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Suecia",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Japao",
+      "color_name": "Verde",
+      "troop": "1"
+  },
+  {
+      "class_name": "Islandia",
+      "color_name": "Roxo",
+      "troop": "5"
+  },
+  {
+      "class_name": "Argentina",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Venezuela",
+      "color_name": "Azul",
+      "troop": "1"
+  },
+  {
+      "class_name": "Mexico",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Vancouver",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Madagascar",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Siberia",
+      "color_name": "Verde",
+      "troop": "1"
+  },
+  {
+      "class_name": "Borneo",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Franca",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Egito",
+      "color_name": "Azul",
+      "troop": "1"
+  },
+  {
+      "class_name": "Nova Guine",
+      "color_name": "Amarelo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Labrador",
+      "color_name": "Roxo",
+      "troop": "1"
+  },
+  {
+      "class_name": "Oriente Medio",
+      "color_name": "Verde",
+      "troop": "1"
+  }
+]

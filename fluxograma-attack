@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" modified="2023-09-12T23:35:00.297Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" etag="_jujqrvnRGv-4SnBKH9i" version="21.6.8" type="device">
+  <diagram name="Page-1" id="3iwdAnaU4V1HhNCBdSxV">
+    <mxGraphModel dx="1783" dy="857" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-3" target="GD1fEn9GCW3QtMThcL3q-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-3" value="Recebe paises" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-7" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-4" target="GD1fEn9GCW3QtMThcL3q-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-9" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-4" target="GD1fEn9GCW3QtMThcL3q-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-4" value="Existe um pais do meu time com uma fronteira inimiga?&amp;nbsp;" style="rhombus;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="25" width="290" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-6" target="GD1fEn9GCW3QtMThcL3q-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-6" value="Popula lista de possíveis movimentos calculando a probabilidade pela diferença de tropas." style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="105" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-8" value="Não faz nada" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="405" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-11" target="GD1fEn9GCW3QtMThcL3q-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-11" value="Ordena lista pelos movimentos com maior probabilidade" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="990" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-16" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-13" target="GD1fEn9GCW3QtMThcL3q-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-18" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-13" target="GD1fEn9GCW3QtMThcL3q-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-13" value="Existe mais de um movimento com a maior probabilidade?" style="rhombus;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="80" width="140" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-15" value="Retorna movimento com maior probabilidade" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="340" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-17" target="GD1fEn9GCW3QtMThcL3q-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-17" value="Filtra apenas movimentos com a maior probabilidade" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1460" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-26" value="Sim" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-23" target="GD1fEn9GCW3QtMThcL3q-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-28" value="Não" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="GD1fEn9GCW3QtMThcL3q-23" target="GD1fEn9GCW3QtMThcL3q-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-23" value="Algum dos melhores movimentos se enquadra no objetivo principal?&amp;nbsp;" style="rhombus;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="1700" y="62.5" width="240" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-25" value="Retorna o movimento que se enquadre no objetivo" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="2080" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GD1fEn9GCW3QtMThcL3q-27" value="Retorna o primeiro movimento da lista" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1760" y="375" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
